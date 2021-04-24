@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<root>
+    <animSet image = "player_body_default" path = "assets\images\player">
+        <anim name = "idle">0</anim>
+        <anim name = "sideMove">0t3</anim>
+        <anim name = "frontBackMove">4t9</anim>
+        <anim name = "whip">10t13</anim>
+    </animSet>
+
+    <animSet image = "player_head_default" path = "assets\images\player">
+        <anim name = "idle">2</anim>
+        <anim name = "front">0</anim>
+        <anim name = "back">1</anim>
+        <anim name = "side">2</anim>
+        <anim name = "whip">3t4</anim>
+        <anim name = "sideMove">5t8</anim>
+    </animSet>
+</root>
