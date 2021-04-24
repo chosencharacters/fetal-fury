@@ -133,7 +133,10 @@ class Player extends Actor
 		{
 			anim("idle");
 			state = "whip";
-			flipX = LEFT;
+			if (LEFT && !flipX)
+				flipX = true;
+			if (RIGHT && flipX)
+				flipX = false;
 		}
 		if (state != "whip")
 			return;
@@ -157,7 +160,7 @@ class Player extends Actor
 			whip.setPosition(x - 50, y - 1);
 
 		whip.visible = true;
-		whip.color = FlxColor.RED;
+		// whip.color = FlxColor.PURPLE;
 
 		if (prevFrame != animation.frameIndex)
 		{
