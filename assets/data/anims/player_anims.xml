@@ -3,17 +3,28 @@
 <root>
     <animSet image = "player_body_default" path = "assets\images\player">
         <anim name = "idle">0</anim>
-        <anim name = "sideMove">0t3</anim>
-        <anim name = "frontBackMove">4t9</anim>
-        <anim name = "whip">10t13</anim>
+        <anim name = "horz_move">0t3</anim>
+        <anim name = "vert_move">4t7</anim>
+        <anim name = "whip" looping = "false" fps = "16">8h2,9t10,11h2,12</anim>
     </animSet>
 
     <animSet image = "player_head_default" path = "assets\images\player">
-        <anim name = "idle">2</anim>
         <anim name = "front">0</anim>
-        <anim name = "back">1</anim>
-        <anim name = "side">2</anim>
-        <anim name = "whip">3t4</anim>
-        <anim name = "sideMove">5t8</anim>
+        <anim name = "front_squash">1</anim>
+        <anim name = "back">2</anim>
+        <anim name = "back_squash">3</anim>
+        <anim name = "side">4</anim>
+        <anim name = "whip_front">5</anim>
+        <anim name = "grapple">6</anim>
+        <anim name = "horz_move">7t10</anim>
+    </animSet>
+
+    <animSet image = "whip" path = "assets\images\player">
+        <anim name = "reset">0</anim>
+        <anim name = "whip" looping = "false" fps = "14">0h2,1t2</anim>
     </animSet>
 </root>
+
+<!---->
+<!---->
+<!---->

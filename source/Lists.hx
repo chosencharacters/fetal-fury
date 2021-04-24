@@ -69,7 +69,7 @@ class Lists
 					var animDef:AnimDef = {
 						name: "",
 						frames: "",
-						fps: 14,
+						fps: 10,
 						looping: true,
 						linked: ""
 					};

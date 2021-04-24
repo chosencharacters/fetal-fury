@@ -15,7 +15,9 @@ class Main extends Sprite
 	{
 		super();
 
+		Lists.init();
 		Ctrl.set();
+
 		addChild(new FlxGame(game_width, game_height, PlayState, 1, fps, fps, true));
 
 		FlxG.mouse.visible = false;

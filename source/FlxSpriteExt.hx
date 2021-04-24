@@ -1,5 +1,6 @@
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxTileFrames;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
  * Extends FlxSprite with a bunch of useful stuff, mostly for animations
@@ -23,9 +24,23 @@ class FlxSpriteExt extends FlxSprite
 	/**simple tick**/
 	var tick:Int = 0;
 
-	public function new(?X:Float, ?Y:Float)
+	/**Previous frame of animation**/
+	var prevFrame:Int = 0;
+
+	/**Was the last frame and current frame different?**/
+	var isOnNewFrame:Bool = false;
+
+	public function new(?X:Float, ?Y:Float, ?SimpleGraphic:FlxGraphicAsset)
 	{
-		super(X, Y);
+		super(X, Y, SimpleGraphic);
+	}
+
+	override function update(elapsed:Float)
+	{
+		isOnNewFrame = prevFrame != animation.frameIndex;
+
+		prevFrame = animation.frameIndex;
+		super.update(elapsed);
 	}
 
 	/***Loads the Image AND Animations from an AnimationSet***/
@@ -105,11 +120,27 @@ class FlxSpriteExt extends FlxSprite
 			addAnimationLink(animName, animationLink);
 	}
 
+	/*
+	 * Adds an animation using the Renaine shorthand and immediately plays it
+	 */
 	public function animAddPlay(animName:String, animString:String, fps:Int = 14, loopSet:Bool = true, flipXSet:Bool = false, flipYSet:Bool = false,
 			animationLink:String = "")
 	{
 		animation.add(animName, Utils.anim(animString), fps, loopSet, flipXSet, flipYSet);
 		animation.play(animName);
+	}
+
+	/*
+	 * Plays an animation if and only if it's not playing already.
+	 */
+	public function animProtect(animation_name:String = ""):Bool
+	{
+		if (animation.name != animation_name)
+		{
+			anim(animation_name);
+			return true;
+		}
+		return false;
 	}
 
 	/**
