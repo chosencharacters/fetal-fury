@@ -32,6 +32,7 @@
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 	<assets path="assets" />
+	<assets path="assets/data/levels" embed="true"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
@@ -39,6 +40,8 @@
 
 	<!--In case you want to use the addons package-->
 	<!--<haxelib name="flixel-addons" />-->
+	<haxelib name="ldtk-haxe-api"/>
+	<haxelib name="deepnightLibs"/>
 
 	<!--In case you want to use the ui package-->
 	<!--<haxelib name="flixel-ui" />-->
@@ -73,7 +76,7 @@
 	<!--<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />-->
 
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
-	<haxedef name="FLX_NO_DEBUG" unless="debug" />
+	<!--haxedef name="FLX_NO_DEBUG" unless="debug" /-->
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />

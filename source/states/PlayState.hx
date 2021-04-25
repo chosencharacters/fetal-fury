@@ -2,9 +2,13 @@ package states;
 
 import actors.Player;
 import enemies.Slime;
+import flixel.FlxCamera.FlxCameraFollowStyle;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
+import flixel.tile.FlxTilemap;
+import ldtk.Project;
+import levels.Level;
 
 class PlayState extends BaseState
 {
@@ -27,6 +31,8 @@ class PlayState extends BaseState
 	public var miscBack:FlxTypedGroup<FlxSpriteExt>;
 	public var miscBackP:FlxTypedGroup<FlxSpriteExt>;
 
+	var level:Level;
+
 	override public function create()
 	{
 		super.create();
@@ -34,9 +40,7 @@ class PlayState extends BaseState
 		self = this;
 
 		create_layers();
-
-		new Player(FlxG.width / 2 - 48, FlxG.height / 2 - 48);
-		new Slime(players.getFirstAlive().x + 120, players.getFirstAlive().y + 120);
+		create_level();
 
 		add(miscBack);
 		add(enemies);
@@ -44,16 +48,31 @@ class PlayState extends BaseState
 		add(players);
 		add(miscFrontP);
 		add(miscFront);
+
+		FlxG.camera.follow(players.getFirstAlive(), FlxCameraFollowStyle.TOPDOWN);
 	}
 
 	override public function update(elapsed:Float)
 	{
 		hitstop_manager();
 
+		FlxG.collide(players, level.col);
+
 		if (FlxG.keys.anyJustPressed(["R"]))
 			FlxG.switchState(new PlayState());
 
 		super.update(elapsed);
+	}
+
+	function create_level()
+	{
+		// Create project instance
+		var project = new LdtkProject();
+
+		add(level = new Level(project, "Level_0", AssetPaths.floor_1__png));
+
+		FlxG.worldBounds.set(level.x, level.y, level.width, level.height);
+		FlxG.camera.setScrollBounds(level.x, level.width, level.y, level.height);
 	}
 
 	function create_layers()

@@ -43,6 +43,11 @@ class Player extends Actor
 		PlayState.self.miscFrontP.add(head_sprite);
 
 		sstate('move');
+
+		setSize(24, 51);
+		offset.set(39, 65);
+
+		// head_sprite.visible = false;
 	}
 
 	override function update(elapsed:Float)
@@ -159,6 +164,8 @@ class Player extends Actor
 			whip.setPosition(x, y - 1);
 		if (flipX)
 			whip.setPosition(x - 50, y - 1);
+
+		whip.setPosition(whip.x - offset.x, whip.y - offset.y);
 
 		whip.visible = true;
 		// whip.color = FlxColor.PURPLE;
@@ -289,5 +296,7 @@ class Player extends Actor
 			PlayState.self.miscFrontP.remove(head_sprite, true);
 			PlayState.self.miscBackP.add(head_sprite);
 		}
+
+		head_sprite.setPosition(head_sprite.x - offset.x, head_sprite.y - offset.y);
 	}
 }

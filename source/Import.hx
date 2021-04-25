@@ -1,5 +1,6 @@
 import Ctrl;
 import FlxSpriteExt;
+import LdtkProject;
 import Lists;
 import ProgressManager;
 import Utils;
