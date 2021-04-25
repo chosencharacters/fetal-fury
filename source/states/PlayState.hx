@@ -59,6 +59,7 @@ class PlayState extends BaseState
 	function create_layers()
 	{
 		add(new FlxSpriteExt(0, 0, AssetPaths.basic_bg__png));
+
 		players = new FlxTypedGroup<Player>();
 		enemies = new FlxTypedGroup<Enemy>();
 		miscFront = new FlxTypedGroup<FlxSpriteExt>();
