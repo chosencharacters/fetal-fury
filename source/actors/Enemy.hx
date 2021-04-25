@@ -1,7 +1,12 @@
 package actors;
 
+import flixel.util.FlxPath;
+
 class Enemy extends Actor
 {
+	var follow_path:Array<FlxPoint>;
+	var pathfinding_tick:Int = 10;
+
 	public function new(?X:Float, ?Y:Float)
 	{
 		super(X, Y);
@@ -79,6 +84,46 @@ class Enemy extends Actor
 			if (auto_turn)
 				flipX = false;
 		}
+		if (mp1.y < mp2.y)
+			velocity.y += accel_rate;
+		if (mp1.y > mp2.y)
+			velocity.y -= accel_rate;
+	}
+
+	/**
+	 * Chases the player around at an accelerating speed
+	 * @param accel_rate speed to chase
+	 */
+	public function pathfinding_chase_player(accel_rate:Float, auto_turn:Bool = true)
+	{
+		var mp1:FlxPoint = getMidpoint(FlxPoint.weak());
+		var mp2:FlxPoint = clp().getMidpoint(FlxPoint.weak());
+
+		if (pathfinding_tick % 15 == 0)
+			follow_path = PlayState.self.level.col.findPath(mp1, mp2);
+
+		pathfinding_tick++;
+
+		if (follow_path == null || follow_path.length < 2)
+		{
+			chase_player(accel_rate, auto_turn);
+			return;
+		}
+
+		mp2 = follow_path[1];
+
+		/*
+			var debug:FlxPath = new FlxPath();
+			FlxG.debugger.drawDebug = true;
+			debug.drawDebug(FlxG.camera);
+		 */
+
+		if (auto_turn)
+			flipX = clp().x > x;
+		if (mp1.x < mp2.x)
+			velocity.x += accel_rate;
+		if (mp1.x > mp2.x)
+			velocity.x -= accel_rate;
 		if (mp1.y < mp2.y)
 			velocity.y += accel_rate;
 		if (mp1.y > mp2.y)

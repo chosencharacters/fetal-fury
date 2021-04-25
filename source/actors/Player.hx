@@ -1,5 +1,6 @@
 package actors;
 
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 
 class Player extends Actor
@@ -17,6 +18,15 @@ class Player extends Actor
 
 	var head_sprite:FlxSpriteExt;
 	var whip:Melee;
+	var impact_hit:Melee;
+
+	var grappling_hook:FlxTypedGroup<FlxSpriteExt>;
+	var grapple_point:FlxPoint = new FlxPoint(-999, -999);
+	var grapple_enemy:Enemy;
+
+	var MAX_GRAPPLE_LENGTH:Int = 20;
+	var GRAPPLE_RATE:Int = 1;
+	var GRAPPLE_PIECE_WIDTH:Int = 17;
 
 	var continue_attacking:Bool = false;
 
@@ -36,8 +46,12 @@ class Player extends Actor
 		whip.loadAllFromAnimationSet("whip");
 		PlayState.self.miscFront.add(whip);
 
+		impact_hit = new Melee(-999, -999, team, str, new FlxPoint(500, 100));
+
 		maxVelocity.set(speed, speed);
 		drag.set(500, 500);
+
+		grappling_hook = new FlxTypedGroup<FlxSpriteExt>();
 
 		PlayState.self.players.add(this);
 		PlayState.self.miscFrontP.add(head_sprite);
@@ -56,6 +70,7 @@ class Player extends Actor
 		movement();
 		head_movement();
 		whip_attack();
+		grapple();
 
 		whip.visible = !whip.animation.finished;
 
@@ -284,6 +299,19 @@ class Player extends Actor
 			case 12:
 				head_sprite.setPosition(x + 11 + left_mod, y - 18);
 				head_sprite.anim("side");
+			// grapple
+			case 13:
+				head_sprite.setPosition(x + 10 + left_mod, y - 2);
+				head_sprite.anim("grapple");
+			case 14:
+				head_sprite.setPosition(x + 10 + left_mod, y - 2);
+				head_sprite.anim("grapple");
+			case 15:
+				head_sprite.setPosition(x + 10 + left_mod, y - 2);
+				head_sprite.anim("grapple");
+			case 16:
+				head_sprite.setPosition(x + 10 + left_mod, y - 2);
+				head_sprite.anim("grapple");
 		}
 
 		if (FRONT_HEAD && PlayState.self.miscBackP.members.indexOf(head_sprite) > -1)
@@ -298,5 +326,116 @@ class Player extends Actor
 		}
 
 		head_sprite.setPosition(head_sprite.x - offset.x, head_sprite.y - offset.y);
+	}
+
+	function grapple()
+	{
+		if (state == "move" && GRAPPLE)
+		{
+			anim("idle");
+			state = "grapple_shoot";
+			if (LEFT && !flipX)
+				flipX = true;
+			if (RIGHT && flipX)
+				flipX = false;
+		}
+		if (state.indexOf("grapple") <= -1)
+			return;
+		trace(animation.name, animation.curAnim.looped);
+		switch (state)
+		{
+			case "grapple_shoot":
+				animProtect("grapple");
+				head_sprite.animProtect("grapple");
+				var len:Int = grappling_hook.length;
+				if (tick % GRAPPLE_RATE == 0)
+				{
+					// keep shooting grappling hook
+					if (len < MAX_GRAPPLE_LENGTH)
+					{
+						var grapple_piece:FlxSpriteExt = new FlxSpriteExt(0, 0, AssetPaths.grapple__png);
+						grappling_hook.add(grapple_piece);
+
+						for (c in 0...len)
+						{
+							var spawn_point:FlxPoint = c > 0 ? grappling_hook.members[c - 1].getMidpoint(FlxPoint.weak()) : getMidpoint(FlxPoint.weak());
+
+							if (flipX)
+								spawn_point.x -= GRAPPLE_PIECE_WIDTH * 2;
+							else
+								spawn_point.x += GRAPPLE_PIECE_WIDTH;
+
+							grappling_hook.members[c].setPosition(spawn_point.x, spawn_point.y - GRAPPLE_PIECE_WIDTH / 2);
+
+							for (e in PlayState.self.enemies)
+							{
+								if (e.overlaps(grappling_hook.members[c]) && FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
+								{
+									sstate("grapple_pull");
+									grapple_enemy = e;
+									grapple_enemy.moves = false;
+									grapple_enemy.color = FlxColor.GRAY;
+									// PlayState.self.hitstop = 10;
+								}
+							}
+						}
+						PlayState.self.miscFrontP.add(grapple_piece);
+					}
+					else // max grappling hook range reached
+					{
+						grappling_hook.members.pop();
+						trace(grappling_hook.members);
+						sstate("grapple_retract");
+					}
+				}
+				ttick();
+			case "grapple_retract":
+				if (grappling_hook.getFirstAlive() != null)
+				{
+					grappling_hook.members[grappling_hook.members.length - 1].kill();
+					PlayState.self.miscFrontP.remove(grappling_hook.members[grappling_hook.members.length - 1], true);
+					grappling_hook.members.pop();
+				}
+				else
+				{
+					grappling_hook.clear();
+					sstate("move");
+					anim("idle");
+					head_sprite.anim("side");
+				}
+			case "grapple_pull":
+				immovable = true;
+				var grp:FlxSpriteExt = grappling_hook.getFirstAlive();
+				anim("grapple");
+				head_sprite.anim("grapple");
+
+				if (grp != null && grp.x != 0 && grp.y != 0)
+				{
+					var mp1:FlxPoint = getMidpoint();
+					var mp2:FlxPoint = grp.getMidpoint();
+					setPosition(mp2.x - width / 2 - grp.width / 2, mp2.y - height / 2 - grp.height / 2);
+					if (overlaps(grp))
+					{
+						grp.kill();
+						PlayState.self.miscFrontP.remove(grp, true);
+					}
+				}
+				else
+				{
+					if (grapple_enemy != null)
+					{
+						grapple_enemy.damage(0, 10, getMidpoint(), FlxPoint.weak(1500, 100));
+						grapple_enemy.color = FlxColor.WHITE;
+						grapple_enemy.moves = true;
+						grapple_enemy = null;
+					}
+					grappling_hook.clear();
+					sstate("move");
+					immovable = false;
+					velocity.set(0, 0);
+					anim("idle");
+					head_sprite.anim("side");
+				}
+		}
 	}
 }

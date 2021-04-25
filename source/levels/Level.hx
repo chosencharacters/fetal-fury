@@ -16,7 +16,7 @@ class Level extends LDTKLevel
 	{
 		super.generate(project, level_name, graphic);
 
-		for (i in 0...24)
+		for (i in 0..._tileObjects.length)
 			setTileProperties(i, FlxObject.NONE);
 
 		var data = get_level_by_name(project, level_name);

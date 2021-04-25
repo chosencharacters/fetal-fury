@@ -187,4 +187,9 @@ class FlxSpriteExt extends FlxSprite
 		sstate(s);
 		anim(s);
 	}
+
+	function ttick()
+	{
+		tick++;
+	}
 }

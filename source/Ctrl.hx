@@ -14,23 +14,23 @@ class Ctrl
 {
 	// controls are handled as an array of bools
 	public static var anyB:Array<Bool> = [false];
-	// shoot/attack
-	public static var shoot:Array<Bool> = [false];
-	public static var attack:Array<Bool> = [false];
+	// grapple/attack
 	public static var grapple:Array<Bool> = [false];
+	public static var attack:Array<Bool> = [false];
+	public static var none:Array<Bool> = [false];
 	public static var use:Array<Bool> = [false];
 
 	// just pressed
-	public static var jshoot:Array<Bool> = [false];
-	public static var jattack:Array<Bool> = [false];
 	public static var jgrapple:Array<Bool> = [false];
+	public static var jattack:Array<Bool> = [false];
+	public static var jnone:Array<Bool> = [false];
 	public static var juse:Array<Bool> = [false];
 	public static var jroll:Array<Bool> = [false];
 
 	// just released
-	public static var rshoot:Array<Bool> = [false];
-	public static var rattack:Array<Bool> = [false];
 	public static var rgrapple:Array<Bool> = [false];
+	public static var rattack:Array<Bool> = [false];
+	public static var rnone:Array<Bool> = [false];
 	public static var ruse:Array<Bool> = [false];
 
 	// directions
@@ -116,15 +116,15 @@ class Ctrl
 			down[c] = FlxG.keys.anyPressed([controls[c][1]]);
 			left[c] = FlxG.keys.anyPressed([controls[c][2]]);
 			right[c] = FlxG.keys.anyPressed([controls[c][3]]);
-			shoot[c] = FlxG.keys.anyPressed([controls[c][4]]);
-			jshoot[c] = FlxG.keys.anyJustPressed([controls[c][4]]);
-			rshoot[c] = FlxG.keys.anyJustReleased([controls[c][4]]);
+			grapple[c] = FlxG.keys.anyPressed([controls[c][4]]);
+			jgrapple[c] = FlxG.keys.anyJustPressed([controls[c][4]]);
+			rgrapple[c] = FlxG.keys.anyJustReleased([controls[c][4]]);
 			attack[c] = FlxG.keys.anyPressed([controls[c][5]]);
 			jattack[c] = FlxG.keys.anyJustPressed([controls[c][5]]);
 			rattack[c] = FlxG.keys.anyJustReleased([controls[c][5]]);
-			grapple[c] = FlxG.keys.anyPressed([controls[c][6]]);
-			jgrapple[c] = FlxG.keys.anyJustPressed([controls[c][6]]);
-			rgrapple[c] = FlxG.keys.anyJustReleased([controls[c][6]]);
+			none[c] = FlxG.keys.anyPressed([controls[c][6]]);
+			jnone[c] = FlxG.keys.anyJustPressed([controls[c][6]]);
+			rnone[c] = FlxG.keys.anyJustReleased([controls[c][6]]);
 			use[c] = FlxG.keys.anyPressed([controls[c][7]]);
 			juse[c] = FlxG.keys.anyJustPressed([controls[c][7]]);
 			ruse[c] = FlxG.keys.anyJustReleased([controls[c][7]]);
@@ -132,12 +132,12 @@ class Ctrl
 			map[c] = FlxG.keys.anyJustPressed(["SPACE"]);
 			reset[c] = FlxG.keys.anyJustPressed(["R"]);
 			jroll[c] = FlxG.keys.anyJustPressed(["SHIFT"]);
-			menuLeft[c] = jgrapple[c];
+			menuLeft[c] = jnone[c];
 			menuRight[c] = juse[c];
-			menuConfirm[c] = jshoot[c] && !Main.REVERSE_MENU_CONTROLS || jgrapple[c] && Main.REVERSE_MENU_CONTROLS;
-			menuBack[c] = jshoot[c] && Main.REVERSE_MENU_CONTROLS || jgrapple[c] && !Main.REVERSE_MENU_CONTROLS;
+			menuConfirm[c] = jgrapple[c] && !Main.REVERSE_MENU_CONTROLS || jnone[c] && Main.REVERSE_MENU_CONTROLS;
+			menuBack[c] = jgrapple[c] && Main.REVERSE_MENU_CONTROLS || jnone[c] && !Main.REVERSE_MENU_CONTROLS;
 
-			anyB[c] = up[c] || down[c] || left[c] || right[c] || shoot[c] || attack[c] || grapple[c] || use[c] || pause[c] || map[c] || reset[c] || jroll[c];
+			anyB[c] = up[c] || down[c] || left[c] || right[c] || grapple[c] || attack[c] || none[c] || use[c] || pause[c] || map[c] || reset[c] || jroll[c];
 
 			if (anyB[c])
 				model = "keyboard";
@@ -182,17 +182,17 @@ class Ctrl
 				pause[p] = pause[p] || gp.anyJustPressed([FlxGamepadInputID.START]);
 				map[p] = map[p] || gp.anyJustPressed([FlxGamepadInputID.BACK]);
 
-				shoot[p] = shoot[p] || gp.anyPressed([FlxGamepadInputID.A]);
-				jshoot[p] = jshoot[p] || gp.anyJustPressed([FlxGamepadInputID.A]);
-				rshoot[p] = rshoot[p] || gp.anyJustReleased([FlxGamepadInputID.A]);
+				grapple[p] = grapple[p] || gp.anyPressed([FlxGamepadInputID.A]);
+				jgrapple[p] = jgrapple[p] || gp.anyJustPressed([FlxGamepadInputID.A]);
+				rgrapple[p] = rgrapple[p] || gp.anyJustReleased([FlxGamepadInputID.A]);
 
 				attack[p] = attack[p] || gp.anyPressed([FlxGamepadInputID.X]);
 				jattack[p] = jattack[p] || gp.anyJustPressed([FlxGamepadInputID.X]);
 				rattack[p] = rattack[p] || gp.anyJustReleased([FlxGamepadInputID.X]);
 
-				grapple[p] = grapple[p] || gp.anyPressed([FlxGamepadInputID.B]);
-				jgrapple[p] = jgrapple[p] || gp.anyJustPressed([FlxGamepadInputID.B]);
-				rgrapple[p] = rgrapple[p] || gp.anyJustReleased([FlxGamepadInputID.B]);
+				none[p] = none[p] || gp.anyPressed([FlxGamepadInputID.B]);
+				jnone[p] = jnone[p] || gp.anyJustPressed([FlxGamepadInputID.B]);
+				rnone[p] = rnone[p] || gp.anyJustReleased([FlxGamepadInputID.B]);
 
 				use[p] = use[p] || gp.anyPressed([FlxGamepadInputID.Y]);
 				juse[p] = juse[p] || gp.anyJustPressed([FlxGamepadInputID.Y]);
@@ -204,14 +204,13 @@ class Ctrl
 					|| gp.anyJustPressed([FlxGamepadInputID.LEFT_SHOULDER])
 					|| gp.anyJustPressed([FlxGamepadInputID.RIGHT_SHOULDER]);
 
-				menuConfirm[p] = jshoot[p] && !Main.REVERSE_MENU_CONTROLS || jgrapple[p] && Main.REVERSE_MENU_CONTROLS;
-				menuBack[p] = jshoot[p] && Main.REVERSE_MENU_CONTROLS || jattack[p] && !Main.REVERSE_MENU_CONTROLS;
+				menuConfirm[p] = jgrapple[p] && !Main.REVERSE_MENU_CONTROLS || jnone[p] && Main.REVERSE_MENU_CONTROLS;
+				menuBack[p] = jgrapple[p] && Main.REVERSE_MENU_CONTROLS || jattack[p] && !Main.REVERSE_MENU_CONTROLS;
 
 				menuLeft[p] = menuLeft[p] || gp.anyJustPressed([FlxGamepadInputID.LEFT_SHOULDER]);
 				menuRight[p] = menuRight[p] || gp.anyJustPressed([FlxGamepadInputID.RIGHT_SHOULDER]);
 
-				anyB[p] = up[p] || down[p] || left[p] || right[p] || shoot[p] || attack[p] || grapple[p] || use[p] || pause[p] || map[p] || reset[p]
-					|| jroll[p];
+				anyB[p] = up[p] || down[p] || left[p] || right[p] || grapple[p] || attack[p] || none[p] || use[p] || pause[p] || map[p] || reset[p] || jroll[p];
 
 				if (gp.anyInput())
 				{
@@ -299,15 +298,15 @@ class Ctrl
 		down[c] = false;
 		left[c] = false;
 		right[c] = false;
-		shoot[c] = false;
-		jshoot[c] = false;
-		rshoot[c] = false;
-		attack[c] = false;
-		jattack[c] = false;
-		rattack[c] = false;
 		grapple[c] = false;
 		jgrapple[c] = false;
 		rgrapple[c] = false;
+		attack[c] = false;
+		jattack[c] = false;
+		rattack[c] = false;
+		none[c] = false;
+		jnone[c] = false;
+		rnone[c] = false;
 		juse[c] = false;
 		use[c] = false;
 		ruse[c] = false;

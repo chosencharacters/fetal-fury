@@ -6,6 +6,7 @@
         <anim name = "horz_move">0t3</anim>
         <anim name = "vert_move">4t7</anim>
         <anim name = "whip" looping = "false" fps = "16">8h2,9t10,11h2,12</anim>
+        <anim name = "grapple">13t16t10</anim>
     </animSet>
 
     <animSet image = "player_head_default" path = "assets\images\player">
@@ -15,8 +16,8 @@
         <anim name = "back_squash">3</anim>
         <anim name = "side">4</anim>
         <anim name = "whip_front">5</anim>
-        <anim name = "grapple">6</anim>
-        <anim name = "horz_move">7t10</anim>
+        <anim name = "grapple">6t8r10</anim>
+        <anim name = "horz_move">9t12</anim>
     </animSet>
 
     <animSet image = "whip" path = "assets\images\player">

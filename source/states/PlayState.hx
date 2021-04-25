@@ -31,7 +31,7 @@ class PlayState extends BaseState
 	public var miscBack:FlxTypedGroup<FlxSpriteExt>;
 	public var miscBackP:FlxTypedGroup<FlxSpriteExt>;
 
-	var level:Level;
+	public var level:Level;
 
 	override public function create()
 	{
@@ -57,6 +57,7 @@ class PlayState extends BaseState
 		hitstop_manager();
 
 		FlxG.collide(players, level.col);
+		FlxG.collide(enemies, level.col);
 
 		if (FlxG.keys.anyJustPressed(["R"]))
 			FlxG.switchState(new PlayState());

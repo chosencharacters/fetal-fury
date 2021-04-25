@@ -15,6 +15,8 @@ class Slime extends Enemy
 
 		maxVelocity.set(speed, speed);
 		drag.set(100, 100);
+		setSize(76, 62);
+		offset.set(31, 46);
 
 		health = 2;
 
@@ -31,7 +33,7 @@ class Slime extends Enemy
 				if (Utils.getDistanceM(this, clp()) < 320)
 					sstateAnim("move");
 			case "move":
-				chase_player(speed / accel_frames);
+				pathfinding_chase_player(speed / accel_frames);
 			case "hit":
 				if (stun < 0 && animation.finished)
 				{
