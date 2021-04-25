@@ -16,7 +16,7 @@ class Player extends Actor
 	var GRAPPLE:Bool = false;
 
 	var head_sprite:FlxSpriteExt;
-	var whip:FlxSpriteExt;
+	var whip:Melee;
 
 	var continue_attacking:Bool = false;
 
@@ -25,21 +25,22 @@ class Player extends Actor
 		super(X, Y);
 
 		team = 1;
+		str = 1;
 
 		loadAllFromAnimationSet("player_body_default");
 		head_sprite = new FlxSpriteExt();
 		head_sprite.loadAllFromAnimationSet("player_head_default");
 		head_movement();
 
-		whip = new FlxSpriteExt();
+		whip = new Melee(-999, -999, team, str, new FlxPoint(300, 100));
 		whip.loadAllFromAnimationSet("whip");
-		PlayState.miscFront.add(whip);
+		PlayState.self.miscFront.add(whip);
 
 		maxVelocity.set(speed, speed);
 		drag.set(500, 500);
 
-		PlayState.players.add(this);
-		PlayState.miscFrontP.add(head_sprite);
+		PlayState.self.players.add(this);
+		PlayState.self.miscFrontP.add(head_sprite);
 
 		sstate('move');
 	}
@@ -176,6 +177,7 @@ class Player extends Actor
 					whip.animProtect("reset");
 					whip.animProtect("whip");
 					whip.flipY = false;
+					whip.melee_id = 1;
 				case 11:
 					velocity.x = maxVelocity.x;
 					velocity.x = flipX ? -Math.abs(velocity.x) : Math.abs(velocity.x);
@@ -186,6 +188,7 @@ class Player extends Actor
 					whip.animProtect("reset");
 					whip.animProtect("whip");
 					whip.flipY = true;
+					whip.melee_id = 2;
 			}
 		}
 
@@ -201,6 +204,16 @@ class Player extends Actor
 			state = "move";
 			whip.visible = false;
 			continue_attacking = false;
+		}
+
+		var enemy_hit:Bool = false;
+		for (e in PlayState.self.enemies)
+			if (e.hitM(whip))
+				enemy_hit = true;
+
+		if (enemy_hit)
+		{
+			velocity.set(velocity.x * .5, velocity.y * .5);
 		}
 	}
 
@@ -266,15 +279,15 @@ class Player extends Actor
 				head_sprite.anim("side");
 		}
 
-		if (FRONT_HEAD && PlayState.miscBackP.members.indexOf(head_sprite) > -1)
+		if (FRONT_HEAD && PlayState.self.miscBackP.members.indexOf(head_sprite) > -1)
 		{
-			PlayState.miscBackP.remove(head_sprite, true);
-			PlayState.miscFrontP.add(head_sprite);
+			PlayState.self.miscBackP.remove(head_sprite, true);
+			PlayState.self.miscFrontP.add(head_sprite);
 		}
-		else if (!FRONT_HEAD && PlayState.miscFrontP.members.indexOf(head_sprite) > -1)
+		else if (!FRONT_HEAD && PlayState.self.miscFrontP.members.indexOf(head_sprite) > -1)
 		{
-			PlayState.miscFrontP.remove(head_sprite, true);
-			PlayState.miscBackP.add(head_sprite);
+			PlayState.self.miscFrontP.remove(head_sprite, true);
+			PlayState.self.miscBackP.add(head_sprite);
 		}
 	}
 }

@@ -39,7 +39,7 @@ class Lists
 	/**Loads all the animations from several xml files**/
 	static function loadAnimationSets()
 	{
-		for (file in ["player_anims", "general_anims"])
+		for (file in ["player_anims", "general_anims", "enemy_anims"])
 		{
 			loadAnimationSet("assets/data/anims/" + file + ".xml");
 		}

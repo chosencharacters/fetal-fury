@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<root>
+    <animSet image = "slime" path = "assets\images\enemies\slime">
+        <anim name = "idle">0t3</anim>
+        <anim name = "hit" looping = "false">4t7</anim>
+        <anim name = "kill" looping = "false">8t11</anim>
+        <anim name = "move">13t17</anim>
+    </animSet>
+</root>
+
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->

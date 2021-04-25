@@ -134,8 +134,8 @@ class Ctrl
 			jroll[c] = FlxG.keys.anyJustPressed(["SHIFT"]);
 			menuLeft[c] = jgrapple[c];
 			menuRight[c] = juse[c];
-			menuConfirm[c] = jshoot[c] && !Main.reverseMenuControls || jgrapple[c] && Main.reverseMenuControls;
-			menuBack[c] = jshoot[c] && Main.reverseMenuControls || jgrapple[c] && !Main.reverseMenuControls;
+			menuConfirm[c] = jshoot[c] && !Main.REVERSE_MENU_CONTROLS || jgrapple[c] && Main.REVERSE_MENU_CONTROLS;
+			menuBack[c] = jshoot[c] && Main.REVERSE_MENU_CONTROLS || jgrapple[c] && !Main.REVERSE_MENU_CONTROLS;
 
 			anyB[c] = up[c] || down[c] || left[c] || right[c] || shoot[c] || attack[c] || grapple[c] || use[c] || pause[c] || map[c] || reset[c] || jroll[c];
 
@@ -204,8 +204,8 @@ class Ctrl
 					|| gp.anyJustPressed([FlxGamepadInputID.LEFT_SHOULDER])
 					|| gp.anyJustPressed([FlxGamepadInputID.RIGHT_SHOULDER]);
 
-				menuConfirm[p] = jshoot[p] && !Main.reverseMenuControls || jgrapple[p] && Main.reverseMenuControls;
-				menuBack[p] = jshoot[p] && Main.reverseMenuControls || jattack[p] && !Main.reverseMenuControls;
+				menuConfirm[p] = jshoot[p] && !Main.REVERSE_MENU_CONTROLS || jgrapple[p] && Main.REVERSE_MENU_CONTROLS;
+				menuBack[p] = jshoot[p] && Main.REVERSE_MENU_CONTROLS || jattack[p] && !Main.REVERSE_MENU_CONTROLS;
 
 				menuLeft[p] = menuLeft[p] || gp.anyJustPressed([FlxGamepadInputID.LEFT_SHOULDER]);
 				menuRight[p] = menuRight[p] || gp.anyJustPressed([FlxGamepadInputID.RIGHT_SHOULDER]);

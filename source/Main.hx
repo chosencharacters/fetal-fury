@@ -9,7 +9,8 @@ class Main extends Sprite
 	var game_height:Int = 540;
 	var fps:Int = 60;
 
-	public static var reverseMenuControls:Bool = false;
+	public static var REVERSE_MENU_CONTROLS:Bool = false;
+	public static var DISABLE_SCREENSHAKE:Bool = false;
 
 	public function new()
 	{

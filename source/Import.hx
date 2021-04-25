@@ -4,6 +4,7 @@ import Lists;
 import ProgressManager;
 import Utils;
 import actors.Actor;
+import actors.Enemy;
 import actors.Player;
 import flixel.FlxG;
 import flixel.FlxObject;

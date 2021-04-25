@@ -121,4 +121,62 @@ class Utils
 		}
 		return a;
 	}
+
+	/**
+	 * Get distance between two points
+	 * @param P1 point 1
+	 * @param P2 point 2
+	 * @return distance between two points
+	 */
+	public static function getDistance(P1:FlxPoint, P2:FlxPoint):Float
+	{
+		var XX:Float = P2.x - P1.x;
+		var YY:Float = P2.y - P1.y;
+		return Math.sqrt(XX * XX + YY * YY);
+	}
+
+	/**
+	 * Get distance between two sprite midpoints
+	 * @param S1 sprite 1
+	 * @param S2 sprite 2
+	 * @return distance between two points
+	 */
+	public static function getDistanceM(S1:FlxSprite, S2:FlxSprite):Float
+	{
+		return getDistance(S1.getMidpoint(FlxPoint.weak()), S2.getMidpoint(FlxPoint.weak()));
+	}
+
+	/**
+	 * Shakes the camera according to some handy presets
+	 * @param preset 
+	 */
+	public static function shake(preset:String = "damage")
+	{
+		if (Main.DISABLE_SCREENSHAKE)
+			return;
+
+		var intensity:Float = 0;
+		var time:Float = 0;
+
+		switch (preset)
+		{
+			case "damage":
+				intensity = 0.025;
+				time = 0.1;
+			case "damagelight":
+				intensity = 0.01;
+				time = 0.025;
+			case "groundpound":
+				intensity = 0.03;
+				time = 0.2;
+			case "explosion":
+				intensity = 0.025;
+				time = 0.225;
+			case "light":
+				shake("damagelight");
+		}
+
+		if (intensity != 0 && time != 0)
+			FlxG.camera.shake(intensity, time);
+	}
 }
