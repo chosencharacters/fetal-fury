@@ -3,7 +3,6 @@ package ui;
 import flixel.FlxBasic;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.text.FlxText;
-import lime.tools.Asset;
 
 class TimerDisplay extends FlxTypedSpriteGroup<FlxSprite>
 {
