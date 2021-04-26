@@ -60,7 +60,7 @@ class PlayState extends BaseState
 		FlxG.collide(enemies, level.col);
 
 		if (FlxG.keys.anyJustPressed(["R"]))
-			FlxG.switchState(new PlayState());
+			start_wipe(new PlayState());
 
 		super.update(elapsed);
 	}

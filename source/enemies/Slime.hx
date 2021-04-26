@@ -37,7 +37,6 @@ class Slime extends Enemy
 			case "hit":
 				if (stun < 0 && animation.finished)
 				{
-					trace("reset");
 					sstateAnim("idle");
 					if (health <= 0)
 						sstateAnim("kill");

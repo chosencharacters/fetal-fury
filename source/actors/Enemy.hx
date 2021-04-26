@@ -6,6 +6,7 @@ class Enemy extends Actor
 {
 	var follow_path:Array<FlxPoint>;
 	var pathfinding_tick:Int = 10;
+	var DYING:Bool = false;
 
 	public function new(?X:Float, ?Y:Float)
 	{
@@ -24,16 +25,36 @@ class Enemy extends Actor
 
 	override function hitM(m:Melee):Bool
 	{
+		if (DYING)
+			return false;
+
 		var result:Bool = super.hitM(m);
 
-		if (justHit && state != "kill")
+		if (justHit && state != "kill" && !DYING)
 		{
-			trace("hit!!!");
 			animation.reset();
 			sstateAnim("hit");
+			if (health <= 0)
+				DYING = true;
 		}
 
 		return result;
+	}
+
+	/**
+	 * This enemy does impact_damage
+	 * @return Bool did deal it impact?
+	 */
+	function impact_damage():Bool
+	{
+		if (stun > 0)
+			return false;
+		for (p in PlayState.self.players)
+		{
+			if (overlaps(p) && FlxG.pixelPerfectOverlap(this, p))
+				return true;
+		}
+		return false;
 	}
 
 	function ai() {}
@@ -111,12 +132,6 @@ class Enemy extends Actor
 		}
 
 		mp2 = follow_path[1];
-
-		/*
-			var debug:FlxPath = new FlxPath();
-			FlxG.debugger.drawDebug = true;
-			debug.drawDebug(FlxG.camera);
-		 */
 
 		if (auto_turn)
 			flipX = clp().x > x;

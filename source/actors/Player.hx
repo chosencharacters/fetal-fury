@@ -341,7 +341,6 @@ class Player extends Actor
 		}
 		if (state.indexOf("grapple") <= -1)
 			return;
-		trace(animation.name, animation.curAnim.looped);
 		switch (state)
 		{
 			case "grapple_shoot":
@@ -384,7 +383,6 @@ class Player extends Actor
 					else // max grappling hook range reached
 					{
 						grappling_hook.members.pop();
-						trace(grappling_hook.members);
 						sstate("grapple_retract");
 					}
 				}
