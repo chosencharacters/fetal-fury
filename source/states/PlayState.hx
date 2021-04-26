@@ -28,6 +28,7 @@ class PlayState extends BaseState
 	public var players:FlxTypedGroup<Player>;
 
 	public var enemies:FlxTypedGroup<Enemy>;
+	public var blocks:FlxTypedGroup<Block>;
 	public var exits:FlxTypedGroup<Exit>;
 
 	public var miscFront:FlxTypedGroup<FlxSpriteExt>;
@@ -54,6 +55,7 @@ class PlayState extends BaseState
 		add(miscBackP);
 		add(players);
 		add(miscFrontP);
+		add(blocks);
 		add(miscFront);
 
 		FlxG.camera.follow(players.getFirstAlive(), FlxCameraFollowStyle.TOPDOWN);
@@ -94,6 +96,7 @@ class PlayState extends BaseState
 		miscFrontP = new FlxTypedGroup<FlxSpriteExt>();
 		miscBackP = new FlxTypedGroup<FlxSpriteExt>();
 		exits = new FlxTypedGroup<Exit>();
+		blocks = new FlxTypedGroup<Block>();
 	}
 
 	function hitstop_manager()

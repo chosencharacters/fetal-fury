@@ -444,6 +444,13 @@ class Player extends Actor
 									// PlayState.self.hitstop = 10;
 								}
 							}
+							for (e in PlayState.self.blocks)
+							{
+								if (e.overlaps(grappling_hook.members[c]) && FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
+								{
+									sstate("grapple_pull");
+								}
+							}
 						}
 						PlayState.self.miscFrontP.add(grapple_piece);
 					}

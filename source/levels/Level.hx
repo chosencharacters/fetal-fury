@@ -27,7 +27,7 @@ class Level extends LDTKLevel
 
 		for (key in data.l_Auto_Source.intGrid.keys())
 			col.setTileByIndex(key, data.l_Auto_Source.intGrid.get(key));
-		for (i in [0, 2, 3, 4])
+		for (i in [0, 3, 4])
 			col.setTileProperties(i, FlxObject.NONE);
 
 		place_entities(project, level_name);
@@ -43,5 +43,18 @@ class Level extends LDTKLevel
 			new Exit(entity.pixelX, entity.pixelY);
 		for (entity in data.l_Enemies.all_Slime.iterator())
 			new Slime(entity.pixelX, entity.pixelY);
+
+		for (index in 0...col.totalTiles)
+		{
+			var pos:FlxPoint = col.getTileCoordsByIndex(index);
+			pos.subtract(tile_size / 2, tile_size / 2);
+			switch (col.getTileByIndex(index))
+			{
+				case 2:
+					new Block(pos.x, pos.y);
+				case 4:
+					new Exit(pos.x, pos.y);
+			}
+		}
 	}
 }
