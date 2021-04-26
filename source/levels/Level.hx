@@ -1,6 +1,6 @@
 package levels;
 
-import enemies.Slime;
+import enemies.*;
 import flixel.tile.FlxTilemap;
 import platforms.Block;
 import platforms.Exit;
@@ -45,6 +45,10 @@ class Level extends LDTKLevel
 			new UpgradeMonitor(entity.pixelX, entity.pixelY);
 		for (entity in data.l_Enemies.all_Slime.iterator())
 			new Slime(entity.pixelX, entity.pixelY);
+		for (entity in data.l_Enemies.all_Slime_Smol.iterator())
+			new SlimeSmol(entity.pixelX, entity.pixelY);
+		for (entity in data.l_Enemies.all_Slime_Boss.iterator())
+			new SlimeBoss(entity.pixelX, entity.pixelY);
 
 		for (index in 0...col.totalTiles)
 		{

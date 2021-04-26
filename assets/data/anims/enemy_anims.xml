@@ -7,10 +7,28 @@
         <anim name = "kill" looping = "false">8t11</anim>
         <anim name = "move">13t17</anim>
     </animSet>
+
+    <animSet image = "slime_smol" path = "assets\images\enemies\slime_smol">
+        <anim name = "idle">0t3</anim>
+        <anim name = "hit">0t3</anim>
+        <anim name = "move">0t3</anim>
+    </animSet>
+
+    <animSet image = "slime_medium" path = "assets\images\enemies\slime_medium">
+        <anim name = "idle">0t3</anim>
+        <anim name = "move">0t3</anim>
+        <anim name = "summon" looping = "false">4t12</anim>
+        <anim name = "hit" looping = "false">13t16</anim>
+        <anim name = "split" looping = "false">17t19</anim>
+    </animSet>
+
+    <animSet image = "slime_boss" path = "assets\images\enemies\slime_boss">
+        <anim name = "idle">0t6</anim>
+        <anim name = "roll" looping = "false">7t12</anim>
+        <anim name = "summon" looping = "false">13t20</anim>
+        <anim name = "hit" looping = "false">21t24</anim>
+        <anim name = "split" looping = "false">25t27</anim>
+    </animSet>
 </root>
 
-<!---->
-<!---->
-<!---->
-<!---->
 <!---->

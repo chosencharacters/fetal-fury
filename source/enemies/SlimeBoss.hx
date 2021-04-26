@@ -1,10 +1,10 @@
 package enemies;
 
-class Slime extends Enemy
+class SlimeBoss extends Enemy
 {
-	var speed:Int = 150;
+	var speed:Int = 200;
 	var accel_frames:Int = 15;
-	var detect_range:Float = 640;
+	var detect_range:Float = 320;
 
 	var vision:Int = 0;
 
@@ -12,7 +12,7 @@ class Slime extends Enemy
 	{
 		super(X, Y);
 
-		loadAllFromAnimationSet("slime");
+		loadAllFromAnimationSet("slime_boss");
 
 		maxVelocity.set(speed, speed);
 		drag.set(100, 100);
@@ -37,6 +37,7 @@ class Slime extends Enemy
 
 		switch (state)
 		{
+			case "idle":
 			case "idle":
 				animProtect("idle");
 				if (Utils.getDistanceM(this, clp()) < detect_range)

@@ -1,10 +1,10 @@
 package enemies;
 
-class Slime extends Enemy
+class SlimeSmol extends Enemy
 {
-	var speed:Int = 150;
+	var speed:Int = 200;
 	var accel_frames:Int = 15;
-	var detect_range:Float = 640;
+	var detect_range:Float = 900;
 
 	var vision:Int = 0;
 
@@ -12,14 +12,14 @@ class Slime extends Enemy
 	{
 		super(X, Y);
 
-		loadAllFromAnimationSet("slime");
+		loadAllFromAnimationSet("slime_smol");
 
 		maxVelocity.set(speed, speed);
 		drag.set(100, 100);
-		setSize(76, 62);
-		offset.set(31, 46);
+		setSize(71, 71);
+		offset.set(9, 0);
 
-		health = 2;
+		health = 1;
 		str = 1;
 
 		sstate("idle");
@@ -45,18 +45,11 @@ class Slime extends Enemy
 				pathfinding_chase_player(speed / accel_frames);
 				melee_hit_player();
 			case "hit":
-				if (stun < 0 && animation.finished)
-				{
-					sstateAnim("idle");
-					if (health <= 0)
-						sstateAnim("kill");
-				}
+				sstate("kill");
+				ai();
 			case "kill":
-				if (animation.finished)
-				{
-					// blood_explode();
-					kill();
-				}
+				blood_explode();
+				kill();
 		}
 	}
 }

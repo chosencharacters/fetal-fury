@@ -9,7 +9,7 @@
 		"url": "https://ldtk.io"
 	},
 	"jsonVersion": "0.9.3",
-	"nextUid": 55,
+	"nextUid": 58,
 	"worldLayout": "Free",
 	"worldGridWidth": 960,
 	"worldGridHeight": 480,
@@ -745,6 +745,81 @@
 			"pivotX": 0,
 			"pivotY": 0,
 			"fieldDefs": []
+		},
+		{
+			"identifier": "Slime_Smol",
+			"uid": 55,
+			"tags": ["enemy"],
+			"width": 96,
+			"height": 96,
+			"resizableX": false,
+			"resizableY": false,
+			"keepAspectRatio": false,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#94D9B3",
+			"renderMode": "Tile",
+			"showName": true,
+			"tilesetId": 35,
+			"tileId": 3,
+			"tileRenderMode": "FitInside",
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": []
+		},
+		{
+			"identifier": "Slime_Medium",
+			"uid": 56,
+			"tags": ["enemy"],
+			"width": 192,
+			"height": 192,
+			"resizableX": false,
+			"resizableY": false,
+			"keepAspectRatio": false,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#94D9B3",
+			"renderMode": "Tile",
+			"showName": true,
+			"tilesetId": 35,
+			"tileId": 4,
+			"tileRenderMode": "Stretch",
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": []
+		},
+		{
+			"identifier": "Slime_Boss",
+			"uid": 57,
+			"tags": ["enemy"],
+			"width": 288,
+			"height": 288,
+			"resizableX": false,
+			"resizableY": false,
+			"keepAspectRatio": false,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#94D9B3",
+			"renderMode": "Tile",
+			"showName": true,
+			"tilesetId": 35,
+			"tileId": 5,
+			"tileRenderMode": "FitInside",
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": []
 		}
 	], "tilesets": [
 		{
@@ -784,7 +859,7 @@
 			"savedSelections": [],
 			"cachedPixelData": {
 				"opaqueTiles": "100000000000000000000000",
-				"averageColors": "feaa8d228c44000000000000f65500000000000000000000000000000000000000000000000000000000000000000000"
+				"averageColors": "feaa8d228c445d77a9118911f65500000000000000000000000000000000000000000000000000000000000000000000"
 			}
 		}
 	], "enums": [], "externalEnums": [], "levelFields": [] },
@@ -1570,7 +1645,41 @@
 					"seed": 1804501,
 					"overrideTilesetUid": null,
 					"gridTiles": [],
-					"entityInstances": []
+					"entityInstances": [
+						{
+							"__identifier": "Slime_Smol",
+							"__grid": [5,2],
+							"__pivot": [0,0],
+							"__tile": { "tilesetUid": 35, "srcRect": [288,0,96,96] },
+							"width": 96,
+							"height": 96,
+							"defUid": 55,
+							"px": [480,192],
+							"fieldInstances": []
+						},
+						{
+							"__identifier": "Slime_Smol",
+							"__grid": [4,1],
+							"__pivot": [0,0],
+							"__tile": { "tilesetUid": 35, "srcRect": [288,0,96,96] },
+							"width": 96,
+							"height": 96,
+							"defUid": 55,
+							"px": [384,96],
+							"fieldInstances": []
+						},
+						{
+							"__identifier": "Slime_Smol",
+							"__grid": [4,3],
+							"__pivot": [0,0],
+							"__tile": { "tilesetUid": 35, "srcRect": [288,0,96,96] },
+							"width": 96,
+							"height": 96,
+							"defUid": 55,
+							"px": [384,288],
+							"fieldInstances": []
+						}
+					]
 				},
 				{
 					"__identifier": "Auto_Layer",
