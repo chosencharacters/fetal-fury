@@ -37,6 +37,11 @@ class Slime extends Enemy
 
 		switch (state)
 		{
+			case "spawn":
+				anim("move");
+				ttick();
+				if (tick > 60)
+					sstateAnim("idle");
 			case "idle":
 				animProtect("idle");
 				if (Utils.getDistanceM(this, clp()) < detect_range)

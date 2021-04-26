@@ -1647,36 +1647,14 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Slime_Smol",
-							"__grid": [5,2],
+							"__identifier": "Slime_Medium",
+							"__grid": [5,1],
 							"__pivot": [0,0],
-							"__tile": { "tilesetUid": 35, "srcRect": [288,0,96,96] },
-							"width": 96,
-							"height": 96,
-							"defUid": 55,
-							"px": [480,192],
-							"fieldInstances": []
-						},
-						{
-							"__identifier": "Slime_Smol",
-							"__grid": [4,1],
-							"__pivot": [0,0],
-							"__tile": { "tilesetUid": 35, "srcRect": [288,0,96,96] },
-							"width": 96,
-							"height": 96,
-							"defUid": 55,
-							"px": [384,96],
-							"fieldInstances": []
-						},
-						{
-							"__identifier": "Slime_Smol",
-							"__grid": [4,3],
-							"__pivot": [0,0],
-							"__tile": { "tilesetUid": 35, "srcRect": [288,0,96,96] },
-							"width": 96,
-							"height": 96,
-							"defUid": 55,
-							"px": [384,288],
+							"__tile": { "tilesetUid": 35, "srcRect": [384,0,96,96] },
+							"width": 192,
+							"height": 192,
+							"defUid": 56,
+							"px": [480,96],
 							"fieldInstances": []
 						}
 					]

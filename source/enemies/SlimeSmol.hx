@@ -37,6 +37,10 @@ class SlimeSmol extends Enemy
 
 		switch (state)
 		{
+			case "spawn":
+				ttick();
+				if (tick > 30)
+					sstate("idle");
 			case "idle":
 				animProtect("idle");
 				if (Utils.getDistanceM(this, clp()) < detect_range)

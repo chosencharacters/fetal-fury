@@ -38,7 +38,6 @@ class SlimeBoss extends Enemy
 		switch (state)
 		{
 			case "idle":
-			case "idle":
 				animProtect("idle");
 				if (Utils.getDistanceM(this, clp()) < detect_range)
 					sstateAnim("move");
@@ -50,12 +49,17 @@ class SlimeBoss extends Enemy
 				{
 					sstateAnim("idle");
 					if (health <= 0)
-						sstateAnim("kill");
+						sstateAnim("split");
 				}
-			case "kill":
+			case "split":
 				if (animation.finished)
 				{
-					// blood_explode();
+					var right:Slime = new Slime(x + width, y);
+					var left:Slime = new Slime(x - 76, y);
+
+					right.velocity.x = 999;
+					left.velocity.x = 999;
+
 					kill();
 				}
 		}

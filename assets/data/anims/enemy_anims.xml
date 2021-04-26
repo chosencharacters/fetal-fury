@@ -14,7 +14,7 @@
         <anim name = "move">0t3</anim>
     </animSet>
 
-    <animSet image = "slime_medium" path = "assets\images\enemies\slime_medium">
+    <animSet image = "slime_med" path = "assets\images\enemies\slime_med">
         <anim name = "idle">0t3</anim>
         <anim name = "move">0t3</anim>
         <anim name = "summon" looping = "false">4t12</anim>

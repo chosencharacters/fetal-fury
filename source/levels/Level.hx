@@ -47,6 +47,8 @@ class Level extends LDTKLevel
 			new Slime(entity.pixelX, entity.pixelY);
 		for (entity in data.l_Enemies.all_Slime_Smol.iterator())
 			new SlimeSmol(entity.pixelX, entity.pixelY);
+		for (entity in data.l_Enemies.all_Slime_Medium.iterator())
+			new SlimeMedium(entity.pixelX, entity.pixelY);
 		for (entity in data.l_Enemies.all_Slime_Boss.iterator())
 			new SlimeBoss(entity.pixelX, entity.pixelY);
 
