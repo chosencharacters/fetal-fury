@@ -61,6 +61,8 @@ class Level extends LDTKLevel
 				case 2:
 					new Block(pos.x, pos.y);
 					setTileByIndex(index, 1);
+				case 3:
+					new Spikes(pos.x, pos.y);
 				case 4:
 					new Exit(pos.x, pos.y);
 			}

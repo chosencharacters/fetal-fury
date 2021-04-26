@@ -10,7 +10,7 @@
 	},
 	"jsonVersion": "0.9.3",
 	"nextUid": 58,
-	"worldLayout": "Free",
+	"worldLayout": "GridVania",
 	"worldGridWidth": 96,
 	"worldGridHeight": 96,
 	"defaultPivotX": 0,
@@ -124,6 +124,28 @@
 						"outOfBoundsValue": 0,
 						"perlinActive": false,
 						"perlinSeed": 4708001,
+						"perlinScale": 0.2,
+						"perlinOctaves": 2
+					},
+					{
+						"uid": 32,
+						"active": true,
+						"size": 1,
+						"tileIds": [7],
+						"chance": 1,
+						"breakOnMatch": true,
+						"pattern": [3],
+						"flipX": false,
+						"flipY": false,
+						"xModulo": 1,
+						"yModulo": 1,
+						"checker": "None",
+						"tileMode": "Single",
+						"pivotX": 0,
+						"pivotY": 0,
+						"outOfBoundsValue": null,
+						"perlinActive": false,
+						"perlinSeed": 2379261,
 						"perlinScale": 0.2,
 						"perlinOctaves": 2
 					},
@@ -594,29 +616,7 @@
 						"perlinOctaves": 2
 					}
 				] },
-				{ "uid": 4, "name": "Base", "active": true, "collapsed": true, "isOptional": false, "rules": [
-					{
-						"uid": 32,
-						"active": true,
-						"size": 1,
-						"tileIds": [7],
-						"chance": 1,
-						"breakOnMatch": true,
-						"pattern": [4],
-						"flipX": false,
-						"flipY": false,
-						"xModulo": 1,
-						"yModulo": 1,
-						"checker": "None",
-						"tileMode": "Single",
-						"pivotX": 0,
-						"pivotY": 0,
-						"outOfBoundsValue": null,
-						"perlinActive": false,
-						"perlinSeed": 2379261,
-						"perlinScale": 0.2,
-						"perlinOctaves": 2
-					},
+				{ "uid": 4, "name": "Base", "active": true, "collapsed": false, "isOptional": false, "rules": [
 					{
 						"uid": 5,
 						"active": true,
@@ -867,7 +867,7 @@
 		{
 			"identifier": "Level_3",
 			"uid": 0,
-			"worldX": 2112,
+			"worldX": 1248,
 			"worldY": 864,
 			"pxWid": 2016,
 			"pxHei": 768,
@@ -1154,7 +1154,7 @@
 						{ "px": [480,192], "src": [0,288], "f": 0, "t": 18, "d": [30,47] },
 						{ "px": [960,288], "src": [0,0], "f": 0, "t": 0, "d": [43,73] },
 						{ "px": [960,384], "src": [0,0], "f": 0, "t": 0, "d": [43,94] },
-						{ "px": [1728,288], "src": [0,96], "f": 0, "t": 8, "d": [44,81] }
+						{ "px": [1728,288], "src": [0,96], "f": 0, "t": 6, "d": [44,81] }
 					],
 					"seed": 3298100,
 					"overrideTilesetUid": null,
@@ -1278,12 +1278,12 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": [ { "levelUid": 50, "dir": "w" }, { "levelUid": 51, "dir": "s" } ]
+			"__neighbours": [ { "levelUid": 50, "dir": "w" }, { "levelUid": 51, "dir": "s" }, { "levelUid": 54, "dir": "e" } ]
 		},
 		{
 			"identifier": "Level_2",
 			"uid": 50,
-			"worldX": 1056,
+			"worldX": 192,
 			"worldY": 1152,
 			"pxWid": 1056,
 			"pxHei": 480,
@@ -1446,7 +1446,7 @@
 						{ "px": [0,384], "src": [96,192], "f": 0, "t": 13, "d": [31,44] },
 						{ "px": [0,0], "src": [96,288], "f": 0, "t": 19, "d": [29,0] },
 						{ "px": [960,0], "src": [0,288], "f": 0, "t": 18, "d": [30,10] },
-						{ "px": [768,192], "src": [0,96], "f": 0, "t": 8, "d": [44,30] }
+						{ "px": [768,192], "src": [0,96], "f": 0, "t": 6, "d": [44,30] }
 					],
 					"seed": 6546791,
 					"overrideTilesetUid": null,
@@ -1565,12 +1565,12 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": [ { "levelUid": 0, "dir": "e" }, { "levelUid": 51, "dir": "s" }, { "levelUid": 54, "dir": "w" } ]
+			"__neighbours": [ { "levelUid": 0, "dir": "e" }, { "levelUid": 51, "dir": "s" }, { "levelUid": 52, "dir": "w" } ]
 		},
 		{
-			"identifier": "Level_0",
+			"identifier": "Level_Boss",
 			"uid": 51,
-			"worldX": 1056,
+			"worldX": 960,
 			"worldY": 1632,
 			"pxWid": 1344,
 			"pxHei": 1056,
@@ -2020,7 +2020,6 @@
 					"intGrid": [],
 					"intGridCsv": [],
 					"autoLayerTiles": [
-						{ "px": [96,96], "src": [96,0], "f": 0, "t": 1, "d": [5,11] },
 						{ "px": [192,96], "src": [96,0], "f": 0, "t": 1, "d": [5,12] },
 						{ "px": [384,96], "src": [96,0], "f": 0, "t": 1, "d": [5,14] },
 						{ "px": [480,96], "src": [96,0], "f": 0, "t": 1, "d": [5,15] },
@@ -2032,7 +2031,6 @@
 						{ "px": [384,192], "src": [96,0], "f": 0, "t": 1, "d": [5,24] },
 						{ "px": [576,192], "src": [96,0], "f": 0, "t": 1, "d": [5,26] },
 						{ "px": [768,192], "src": [96,0], "f": 0, "t": 1, "d": [5,28] },
-						{ "px": [96,288], "src": [96,0], "f": 0, "t": 1, "d": [5,31] },
 						{ "px": [192,288], "src": [96,0], "f": 0, "t": 1, "d": [5,32] },
 						{ "px": [384,288], "src": [96,0], "f": 0, "t": 1, "d": [5,34] },
 						{ "px": [480,288], "src": [96,0], "f": 0, "t": 1, "d": [5,35] },
@@ -2068,6 +2066,8 @@
 						{ "px": [288,96], "src": [0,0], "f": 0, "t": 0, "d": [43,13] },
 						{ "px": [480,192], "src": [0,0], "f": 0, "t": 0, "d": [43,25] },
 						{ "px": [288,288], "src": [0,0], "f": 0, "t": 0, "d": [43,33] },
+						{ "px": [96,96], "src": [96,96], "f": 0, "t": 7, "d": [32,11] },
+						{ "px": [96,288], "src": [96,96], "f": 0, "t": 7, "d": [32,31] },
 						{ "px": [288,192], "src": [192,0], "f": 0, "t": 2, "d": [10,23] },
 						{ "px": [672,192], "src": [0,96], "f": 0, "t": 6, "d": [44,27] }
 					],
@@ -2105,6 +2105,7 @@
 						{ "coordId": 8, "v": 0 },
 						{ "coordId": 9, "v": 0 },
 						{ "coordId": 10, "v": 0 },
+						{ "coordId": 11, "v": 2 },
 						{ "coordId": 13, "v": 1 },
 						{ "coordId": 19, "v": 0 },
 						{ "coordId": 20, "v": 0 },
@@ -2113,6 +2114,7 @@
 						{ "coordId": 27, "v": 3 },
 						{ "coordId": 29, "v": 0 },
 						{ "coordId": 30, "v": 0 },
+						{ "coordId": 31, "v": 2 },
 						{ "coordId": 33, "v": 1 },
 						{ "coordId": 39, "v": 0 },
 						{ "coordId": 40, "v": 0 },
@@ -2138,7 +2140,7 @@
 						1,
 						1,
 						1,
-						0,
+						3,
 						0,
 						2,
 						0,
@@ -2158,7 +2160,7 @@
 						0,
 						1,
 						1,
-						0,
+						3,
 						0,
 						2,
 						0,
@@ -2185,12 +2187,12 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": [{ "levelUid": 54, "dir": "e" }]
+			"__neighbours": [{ "levelUid": 50, "dir": "e" }]
 		},
 		{
 			"identifier": "Level_4",
 			"uid": 54,
-			"worldX": 192,
+			"worldX": 3264,
 			"worldY": 672,
 			"pxWid": 864,
 			"pxHei": 960,
@@ -2409,7 +2411,7 @@
 						{ "px": [96,864], "src": [96,192], "f": 0, "t": 13, "d": [31,82] },
 						{ "px": [0,0], "src": [96,288], "f": 0, "t": 19, "d": [29,0] },
 						{ "px": [768,0], "src": [0,288], "f": 0, "t": 18, "d": [30,8] },
-						{ "px": [384,768], "src": [0,96], "f": 0, "t": 8, "d": [44,76] }
+						{ "px": [384,768], "src": [0,96], "f": 0, "t": 6, "d": [44,76] }
 					],
 					"seed": 5964219,
 					"overrideTilesetUid": null,
@@ -2484,7 +2486,7 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": [ { "levelUid": 50, "dir": "e" }, { "levelUid": 52, "dir": "w" } ]
+			"__neighbours": [{ "levelUid": 0, "dir": "w" }]
 		}
 	]
 }

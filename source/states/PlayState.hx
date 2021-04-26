@@ -33,6 +33,9 @@ class PlayState extends BaseState
 	public static var BOSS_MODE:Bool = false;
 	public static var BOSS_CLEAR:Bool = false;
 
+	public static var current_level:Int = -1;
+	public static var starting_level:Int = 1;
+
 	/**
 	 * Layers
 	 */
@@ -55,9 +58,6 @@ class PlayState extends BaseState
 	public var LEVEL_CLEAR:Bool = true;
 	public var GAME_OVER:Bool = false;
 
-	public static var current_level:Int = -1;
-	public static var starting_level:Int = 0;
-
 	override public function create()
 	{
 		super.create();
@@ -79,9 +79,9 @@ class PlayState extends BaseState
 		add(miscBack);
 		add(enemies);
 		add(miscBackP);
+		add(blocks);
 		add(players);
 		add(miscFrontP);
-		add(blocks);
 		add(miscFront);
 		add(ui);
 

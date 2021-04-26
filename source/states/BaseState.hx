@@ -21,7 +21,7 @@ class BaseState extends FlxState
 	{
 		super.create();
 
-		bgColor = 0xff301417;
+		bgColor = 0xff311518;
 
 		wipe = new FlxSpriteExt(0, 0);
 		wipe.loadGraphic(AssetPaths.transition__png, true, 1650, 560);
