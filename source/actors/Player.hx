@@ -1,12 +1,13 @@
 package actors;
 
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
 import platforms.Exit;
 
 class Player extends Actor
 {
-	var speed:Int = 350;
+	static var base_speed:Int = 350;
+	static var base_str:Int = 1;
+
+	var speed:Int = 0;
 	var accelFrames:Int = 15;
 
 	var RIGHT:Bool = false;
@@ -43,14 +44,18 @@ class Player extends Actor
 
 	var target_exit:Exit;
 
+	static var saved_speed:Int = 350;
+	static var saved_str:Int = 1;
+
 	public function new(?X:Float, ?Y:Float)
 	{
 		super(X, Y);
 		spawn_point = new FlxPoint(x, y);
 
+		speed = saved_speed;
 		health = 1;
 		team = 1;
-		str = 1;
+		str = saved_str;
 
 		loadAllFromAnimationSet("player_body_default");
 		head_sprite = new FlxSpriteExt();
@@ -80,6 +85,12 @@ class Player extends Actor
 
 		land_melee = new Melee(-99, -99, team, 0, 30, FlxPoint.weak(2000, 2000), 3);
 		land_melee.makeGraphic(frameWidth, frameHeight, FlxColor.WHITE);
+	}
+
+	public static function reset_base_stats()
+	{
+		saved_speed = base_speed;
+		saved_str = base_str;
 	}
 
 	override function update(elapsed:Float)
@@ -300,6 +311,10 @@ class Player extends Actor
 			if (e.hitM(whip))
 				enemy_hit = true;
 
+		for (e in PlayState.self.upgrades)
+			if (e.hitM(whip))
+				enemy_hit = true;
+
 		if (enemy_hit)
 		{
 			velocity.set(velocity.x * .5, velocity.y * .5);
@@ -424,7 +439,8 @@ class Player extends Actor
 
 						for (c in 0...len)
 						{
-							var spawn_point:FlxPoint = c > 0 ? grappling_hook.members[c - 1].getMidpoint(FlxPoint.weak()) : getMidpoint(FlxPoint.weak());
+							var spawn_point:FlxPoint = c > 0 ? grappling_hook.members[c - 1].getMidpoint(FlxPoint.weak()) : getMidpoint(FlxPoint.weak(-999,
+								-999));
 
 							if (flipX)
 								spawn_point.x -= GRAPPLE_PIECE_WIDTH * 2;
@@ -608,5 +624,19 @@ class Player extends Actor
 				point.kill();
 			grappling_hook.clear();
 		}
+	}
+
+	public function upgrade(upgrade_type:String)
+	{
+		switch (upgrade_type)
+		{
+			case "speed":
+				speed = Math.floor(speed * 1.25);
+			case "attack":
+				str++;
+		}
+
+		saved_speed = speed;
+		saved_str = str;
 	}
 }

@@ -4,12 +4,13 @@ import actors.Player;
 import enemies.Slime;
 import flixel.FlxCamera.FlxCameraFollowStyle;
 import flixel.FlxState;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import ldtk.Project;
 import levels.Level;
+import platforms.Block;
 import platforms.Exit;
+import platforms.UpgradeMonitor;
 
 class PlayState extends BaseState
 {
@@ -31,6 +32,7 @@ class PlayState extends BaseState
 	public var levels:FlxTypedGroup<Level>;
 	public var blocks:FlxTypedGroup<Block>;
 	public var exits:FlxTypedGroup<Exit>;
+	public var upgrades:FlxTypedGroup<UpgradeMonitor>;
 
 	public var miscFront:FlxTypedGroup<FlxSpriteExt>;
 	public var miscFrontP:FlxTypedGroup<FlxSpriteExt>;
@@ -53,6 +55,7 @@ class PlayState extends BaseState
 
 		add(levels);
 		add(exits);
+		add(upgrades);
 		add(miscBack);
 		add(enemies);
 		add(miscBackP);
@@ -103,6 +106,7 @@ class PlayState extends BaseState
 		miscBackP = new FlxTypedGroup<FlxSpriteExt>();
 		exits = new FlxTypedGroup<Exit>();
 		blocks = new FlxTypedGroup<Block>();
+		upgrades = new FlxTypedGroup<UpgradeMonitor>();
 	}
 
 	function clear_layers()
@@ -116,6 +120,7 @@ class PlayState extends BaseState
 		miscBackP.clear();
 		exits.clear();
 		blocks.clear();
+		upgrades.clear();
 	}
 
 	function hitstop_manager()
@@ -148,6 +153,7 @@ class PlayState extends BaseState
 
 	function reset_game()
 	{
+		Player.reset_base_stats();
 		LEVEL_CLEAR = false;
 		current_level = 0;
 		start_wipe(new PlayState(), true);

@@ -21,14 +21,18 @@ class BaseState extends FlxState
 	{
 		super.create();
 
+		bgColor = 0xff301417;
+
 		wipe = new FlxSpriteExt(0, 0);
 		wipe.loadGraphic(AssetPaths.transition__png, true, 1650, 560);
 		wipe.animAddPlay("wipe", "0t3", 10);
 		wipe.scale.set(1.65, 1.65);
 		wipe.animation.frameIndex = wipe_save_frame;
+		wipe.scrollFactor.set(0, 0);
 
 		if (wipe_position == null)
 			wipe_position = new FlxPoint(-999, -999);
+
 		wipe.setPosition(wipe_position.x, wipe_position.y);
 
 		wipe.visible = false;

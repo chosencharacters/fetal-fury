@@ -37,9 +37,9 @@ class FlxSpriteExt extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
-		isOnNewFrame = prevFrame != animation.frameIndex;
-
-		prevFrame = animation.frameIndex;
+		isOnNewFrame = animation == null ? false : prevFrame != animation.frameIndex;
+		prevFrame = animation == null ? 0 : animation.frameIndex;
+		
 		super.update(elapsed);
 	}
 

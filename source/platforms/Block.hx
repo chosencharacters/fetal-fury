@@ -1,3 +1,5 @@
+package platforms;
+
 class Block extends FlxSpriteExt
 {
 	public function new(?X:Float, ?Y:Float)

@@ -4,4 +4,23 @@
 	<animSet image = "blood_explode" path = "assets\images\sfx">
 		<anim name = "idle" looping = "false">0t5</anim>
 	</animSet>
+
+	<animSet image = "upgrade_monitor" path = "assets\images\upgrades">
+		<anim name = "idle" fps = "10">0</anim>
+		<anim name = "empty" fps = "10">0</anim>
+		<anim name = "time" fps = "10">1t5</anim>
+		<anim name = "speed" fps = "10">6t10</anim>
+		<anim name = "attack" fps = "10">11t16</anim>
+		<anim name = "destroyed">17</anim>
+	</animSet>
+
+	<animSet image = "upgrade_monitor_explosion" path = "assets\images\sfx">
+		<anim name = "idle" looping = "false">0t12</anim>
+	</animSet>
 </root>
+
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
