@@ -56,6 +56,9 @@ class SlimeBoss extends Enemy
 		}
 		super.ai();
 
+		if (health <= 0)
+			sstate("split");
+
 		switch (state)
 		{
 			case "idle":

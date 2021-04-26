@@ -30,6 +30,8 @@ class BossIntro extends FlxSpriteExt
 		visible = false;
 
 		PlayState.BOSS_MODE = true;
+
+		SoundPlayer.play_sound(AssetPaths.AnnouncerBossIntroGetYourAssReady__ogg);
 	}
 
 	override function update(elapsed:Float)
@@ -43,9 +45,10 @@ class BossIntro extends FlxSpriteExt
 		{
 			case "wait_start":
 				ttick();
-				for (p in PlayState.self.players)
-					p.update(elapsed);
-				if (tick > 30)
+				if (tick < 30)
+					for (p in PlayState.self.players)
+						p.update(elapsed);
+				if (tick > 90)
 				{
 					sstate("camera_pan_start");
 				}
@@ -54,6 +57,7 @@ class BossIntro extends FlxSpriteExt
 				sstate("title_card");
 				x += FlxG.width / 2;
 				acceleration.x = -3000;
+				SoundPlayer.play_sound(AssetPaths.AnnouncerBossIntroWholeLottaTrouble__ogg);
 			case "title_card":
 				ttick();
 				visible = true;

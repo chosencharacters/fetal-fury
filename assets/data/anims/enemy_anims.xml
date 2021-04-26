@@ -29,6 +29,14 @@
         <anim name = "hit" looping = "false">21t24</anim>
         <anim name = "split" looping = "false">25t27</anim>
     </animSet>
+
+    <animSet image = "slime_boss" path = "assets\images\enemies\slime_boss">
+        <anim name = "idle">0t6</anim>
+        <anim name = "roll" looping = "false">7t12</anim>
+        <anim name = "summon" looping = "false">13t20</anim>
+        <anim name = "hit" looping = "false">21t24</anim>
+        <anim name = "split" looping = "false">25t27</anim>
+    </animSet>
 </root>
 
 <!---->

@@ -36,7 +36,7 @@ class PlayState extends BaseState
 	public static var BOSS_CLEAR:Bool = false;
 
 	public static var current_level:Int = -1;
-	public static var starting_level:Int = 11;
+	public static var starting_level:Int = 0;
 
 	/**
 	 * Layers
@@ -241,6 +241,9 @@ class PlayState extends BaseState
 			BOSS_CLEAR = enemies.getFirstAlive() == null;
 			if (BOSS_CLEAR)
 			{
+				FlxG.sound.pause();
+				SoundPlayer.play_sound(AssetPaths.record_scratch__ogg);
+
 				hitstop = 999;
 				FlxG.camera.fade(FlxColor.BLACK, 1, false, function()
 				{

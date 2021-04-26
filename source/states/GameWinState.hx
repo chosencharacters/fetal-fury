@@ -8,6 +8,8 @@ class GameWinState extends BaseState
 	{
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
+		
+		SoundPlayer.play_sound(AssetPaths.AnnouncerBossPlayerWins__ogg);
 
 		FlxG.camera.fade(FlxColor.BLACK, 1, true, true);
 
