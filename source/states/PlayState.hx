@@ -43,11 +43,15 @@ class PlayState extends BaseState
 	public var level:Level;
 	public var LEVEL_CLEAR:Bool = false;
 
-	public static var current_level:Int = 0;
+	public static var current_level:Int = -1;
+	public static var starting_level:Int = 0;
 
 	override public function create()
 	{
 		super.create();
+
+		if (current_level == -1)
+			current_level = starting_level;
 
 		self = this;
 
@@ -153,6 +157,7 @@ class PlayState extends BaseState
 
 	function reset_game()
 	{
+		current_level = starting_level;
 		Player.reset_base_stats();
 		LEVEL_CLEAR = false;
 		current_level = 0;
