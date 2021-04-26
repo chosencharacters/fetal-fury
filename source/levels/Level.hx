@@ -2,6 +2,7 @@ package levels;
 
 import enemies.Slime;
 import flixel.tile.FlxTilemap;
+import platforms.Exit;
 
 class Level extends LDTKLevel
 {
@@ -40,5 +41,7 @@ class Level extends LDTKLevel
 			new Player(entity.pixelX, entity.pixelY);
 		for (entity in data.l_Enemies.all_Slime.iterator())
 			new Slime(entity.pixelX, entity.pixelY);
+		for (entity in data.l_Enemies.all_Exit.iterator())
+			new Exit(entity.pixelX, entity.pixelY);
 	}
 }

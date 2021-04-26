@@ -9,6 +9,7 @@ import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import ldtk.Project;
 import levels.Level;
+import platforms.Exit;
 
 class PlayState extends BaseState
 {
@@ -18,12 +19,16 @@ class PlayState extends BaseState
 	/**Freeze frames, while above 0 certain groups won't be active*/
 	public var hitstop:Int = 0;
 
+	/**Global timer time remaining*/
+	public var global_timer:Int = 60 * 60;
+
 	/**
 	 * Layers
 	 */
 	public var players:FlxTypedGroup<Player>;
 
 	public var enemies:FlxTypedGroup<Enemy>;
+	public var exits:FlxTypedGroup<Exit>;
 
 	public var miscFront:FlxTypedGroup<FlxSpriteExt>;
 	public var miscFrontP:FlxTypedGroup<FlxSpriteExt>;
@@ -42,6 +47,7 @@ class PlayState extends BaseState
 		create_layers();
 		create_level();
 
+		add(exits);
 		add(miscBack);
 		add(enemies);
 		add(miscBackP);
@@ -86,6 +92,7 @@ class PlayState extends BaseState
 		miscBack = new FlxTypedGroup<FlxSpriteExt>();
 		miscFrontP = new FlxTypedGroup<FlxSpriteExt>();
 		miscBackP = new FlxTypedGroup<FlxSpriteExt>();
+		exits = new FlxTypedGroup<Exit>();
 	}
 
 	function hitstop_manager()

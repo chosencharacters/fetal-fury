@@ -30,10 +30,20 @@ class Player extends Actor
 
 	var continue_attacking:Bool = false;
 
+	var root_offset:FlxPoint = new FlxPoint(39, 65);
+
+	var DYING:Bool = false;
+
+	var spawn_point:FlxPoint;
+
+	var land_melee:Melee;
+
 	public function new(?X:Float, ?Y:Float)
 	{
 		super(X, Y);
+		spawn_point = new FlxPoint(x, y);
 
+		health = 1;
 		team = 1;
 		str = 1;
 
@@ -56,24 +66,33 @@ class Player extends Actor
 		PlayState.self.players.add(this);
 		PlayState.self.miscFrontP.add(head_sprite);
 
-		sstate('move');
+		sstate("enter_start");
 
 		setSize(24, 51);
-		offset.set(39, 65);
+		offset.set(root_offset.x, root_offset.y);
 
-		// head_sprite.visible = false;
+		head_sprite.visible = false;
+
+		land_melee = new Melee(-99, -99, team, 0, 30, FlxPoint.weak(2000, 2000), 3);
+		land_melee.makeGraphic(frameWidth, frameHeight, FlxColor.WHITE);
 	}
 
 	override function update(elapsed:Float)
 	{
-		controls();
-		movement();
-		head_movement();
-		whip_attack();
-		grapple();
-
+		if (!DYING)
+		{
+			controls();
+			enter();
+			movement();
+			head_movement();
+			whip_attack();
+			grapple();
+		}
+		else
+		{
+			die();
+		}
 		whip.visible = !whip.animation.finished;
-
 		super.update(elapsed);
 	}
 
@@ -87,6 +106,43 @@ class Player extends Actor
 		ATTACK = Ctrl.jattack[team];
 		GRAPPLE = Ctrl.jgrapple[team];
 		CHARGE_ATTACK = Ctrl.attack[team];
+	}
+
+	function enter()
+	{
+		if (state.indexOf("enter") <= -1)
+			return;
+		switch (state)
+		{
+			case "enter_start":
+				offset.set(root_offset.x, root_offset.y + 325);
+				animProtect("fall");
+				sstate("enter_fall");
+				inv = 999;
+			case "enter_fall":
+				if (BaseState.WIPING)
+					return;
+				offset.y -= 25;
+				if (offset.x == root_offset.x && offset.y == root_offset.y)
+				{
+					offset.set(root_offset.x, root_offset.y);
+					sstate("enter_land");
+					anim("land");
+					tick = 0;
+					land_melee.setPosition(x - offset.x, y - offset.y);
+					for (e in PlayState.self.enemies)
+						e.hitM(land_melee);
+				}
+			case "enter_land":
+				land_melee.setPosition(-99, -99);
+				ttick();
+				if (tick >= 5)
+				{
+					anim("idle");
+					sstate("move");
+					inv = 15;
+				}
+		}
 	}
 
 	/**define movement actions*/
@@ -226,6 +282,8 @@ class Player extends Actor
 			state = "move";
 			whip.visible = false;
 			continue_attacking = false;
+			if (continue_attacking)
+				anim("idle");
 		}
 
 		var enemy_hit:Bool = false;
@@ -417,6 +475,7 @@ class Player extends Actor
 						grp.kill();
 						PlayState.self.miscFrontP.remove(grp, true);
 					}
+					inv = 15;
 				}
 				else
 				{
@@ -433,6 +492,59 @@ class Player extends Actor
 					velocity.set(0, 0);
 					anim("idle");
 					head_sprite.anim("side");
+				}
+		}
+	}
+
+	override function killAssist()
+	{
+		if (DYING)
+			return;
+		DYING = true;
+		sstate("die_hit");
+		super.killAssist();
+		inv = 999;
+		trace("KILL ASSIST " + inv);
+	}
+
+	function die()
+	{
+		if (state.indexOf("die") <= -1)
+			return;
+		// trace(tick, state, animation.name);
+		inv = 999;
+
+		switch (state)
+		{
+			case "die_hit":
+				if (grappling_hook.length < 0)
+				{
+					for (point in grappling_hook)
+						point.kill();
+					grappling_hook.clear();
+				}
+				anim("hit");
+				ttick();
+				if (tick > 5)
+					sstate("die_anim");
+			case "die_anim":
+				animProtect("die");
+				// trace(animation.frameIndex, animation.finished);
+				if (animation.finished)
+				{
+					sstate("die_wait");
+					blood_explode();
+				}
+			case "die_wait":
+				visible = false;
+				ttick();
+				if (tick > 15)
+				{
+					visible = true;
+					DYING = false;
+					sstate("enter_start");
+					setPosition(spawn_point.x, spawn_point.y);
+					enter();
 				}
 		}
 	}

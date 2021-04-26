@@ -8,8 +8,9 @@ class BaseState extends FlxState
 {
 	private var wipe:FlxSpriteExt;
 
+	public static var WIPING:Bool = false;
+
 	private static var wipe_position:FlxPoint;
-	private static var WIPING:Bool = false;
 	private static var wipe_state:BaseState;
 	private static var WIPE_PART_2:Bool = false;
 	private static var wipe_save_frame:Int = 0;

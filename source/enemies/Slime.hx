@@ -19,12 +19,15 @@ class Slime extends Enemy
 		offset.set(31, 46);
 
 		health = 2;
+		str = 1;
 
 		sstateAnim("idle");
 	}
 
 	override function ai()
 	{
+		if (BaseState.WIPING)
+			return;
 		super.ai();
 
 		switch (state)
@@ -34,6 +37,7 @@ class Slime extends Enemy
 					sstateAnim("move");
 			case "move":
 				pathfinding_chase_player(speed / accel_frames);
+				melee_hit_player();
 			case "hit":
 				if (stun < 0 && animation.finished)
 				{
@@ -43,7 +47,10 @@ class Slime extends Enemy
 				}
 			case "kill":
 				if (animation.finished)
+				{
+					// blood_explode();
 					kill();
+				}
 		}
 	}
 }

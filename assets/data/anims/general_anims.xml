@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<animSet image = "" path = "assets\images\">
-	<anim name = "idle"></anim>
-</animSet>
+<root>
+	<animSet image = "blood_explode" path = "assets\images\sfx">
+		<anim name = "idle" looping = "false">0t5</anim>
+	</animSet>
+</root>

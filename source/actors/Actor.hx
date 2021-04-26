@@ -11,7 +11,7 @@ class Actor extends FlxSpriteExt
 	var justHit:Bool = false;
 
 	/**Strength i.e. base damage*/
-	var str:Int = 0;
+	var str:Int = 1;
 
 	/**Stun i.e. disable time*/
 	var stun:Int = 0;
@@ -94,6 +94,22 @@ class Actor extends FlxSpriteExt
 		return justHit;
 	}
 
+	public function hit(a:Actor, Str:Int, Stun:Int, Knockback:FlxPoint):Bool
+	{
+		var invulnerable:Bool = inv > 0;
+		var opposite_team:Bool = a.team == 0 || a.team > 0 && team < 0 || a.team < 0 && team > 0;
+
+		trace(invulnerable);
+		if (invulnerable || !opposite_team)
+			return false;
+
+		damage(Str, Stun, a.getMidpoint(FlxPoint.weak()), Knockback);
+
+		inv = 10;
+		justHit = true;
+		return justHit;
+	}
+
 	/**
 	 * Gets called instead of kill by default, just in case actors have a special something to do before they die ex. a special death animation
 	 */
@@ -122,5 +138,13 @@ class Actor extends FlxSpriteExt
 		DROP_SHADOW_DISABLE = true;
 		update_drop_shadow();
 		super.kill();
+	}
+
+	function blood_explode()
+	{
+		var mp:FlxPoint = getMidpoint(FlxPoint.weak());
+		var blood:TempSprite = new TempSprite(mp.x - 210 * .5, y + height - 129);
+		blood.loadAllFromAnimationSet("blood_explode");
+		PlayState.self.miscBack.add(blood);
 	}
 }

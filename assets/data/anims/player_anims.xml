@@ -7,6 +7,11 @@
         <anim name = "vert_move">4t7</anim>
         <anim name = "whip" looping = "false" fps = "16">8h2,9t10,11h2,12</anim>
         <anim name = "grapple">13t16t10</anim>
+        <anim name = "exit" looping = "false">17t23</anim>
+        <anim name = "fall">24</anim>
+        <anim name = "land">25</anim>
+        <anim name = "hit">25</anim>
+        <anim name = "die" looping = "false">26t28</anim>
     </animSet>
 
     <animSet image = "player_head_default" path = "assets\images\player">
