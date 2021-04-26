@@ -1,5 +1,8 @@
 package enemies;
 
+import ui.BossIntro;
+import ui.TimeUpDisplay;
+
 class SlimeBoss extends Enemy
 {
 	var speed:Int = 200;
@@ -31,6 +34,8 @@ class SlimeBoss extends Enemy
 		sstateAnim("idle");
 
 		DROP_SHADOW_DISABLE = true;
+
+		new BossIntro(this);
 	}
 
 	override function ai()

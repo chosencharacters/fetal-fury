@@ -11,8 +11,8 @@
 	"jsonVersion": "0.9.3",
 	"nextUid": 58,
 	"worldLayout": "Free",
-	"worldGridWidth": 960,
-	"worldGridHeight": 480,
+	"worldGridWidth": 96,
+	"worldGridHeight": 96,
 	"defaultPivotX": 0,
 	"defaultPivotY": 0,
 	"defaultGridSize": 96,
@@ -867,8 +867,8 @@
 		{
 			"identifier": "Level_3",
 			"uid": 0,
-			"worldX": 3168,
-			"worldY": 672,
+			"worldX": 2112,
+			"worldY": 864,
 			"pxWid": 2016,
 			"pxHei": 768,
 			"__bgColor": "#696A79",
@@ -1278,13 +1278,13 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": [{ "levelUid": 50, "dir": "w" }]
+			"__neighbours": [ { "levelUid": 50, "dir": "w" }, { "levelUid": 51, "dir": "s" } ]
 		},
 		{
 			"identifier": "Level_2",
 			"uid": 50,
-			"worldX": 2112,
-			"worldY": 960,
+			"worldX": 1056,
+			"worldY": 1152,
 			"pxWid": 1056,
 			"pxHei": 480,
 			"__bgColor": "#696A79",
@@ -1565,13 +1565,13 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": [ { "levelUid": 0, "dir": "e" }, { "levelUid": 52, "dir": "w" } ]
+			"__neighbours": [ { "levelUid": 0, "dir": "e" }, { "levelUid": 51, "dir": "s" }, { "levelUid": 54, "dir": "w" } ]
 		},
 		{
 			"identifier": "Level_0",
 			"uid": 51,
-			"worldX": 96,
-			"worldY": 384,
+			"worldX": 1056,
+			"worldY": 1632,
 			"pxWid": 1344,
 			"pxHei": 1056,
 			"__bgColor": "#696A79",
@@ -1918,13 +1918,13 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": [{ "levelUid": 52, "dir": "s" }]
+			"__neighbours": [ { "levelUid": 0, "dir": "n" }, { "levelUid": 50, "dir": "n" } ]
 		},
 		{
 			"identifier": "Level_1",
 			"uid": 52,
-			"worldX": 1152,
-			"worldY": 960,
+			"worldX": -768,
+			"worldY": 1152,
 			"pxWid": 960,
 			"pxHei": 480,
 			"__bgColor": "#696A79",
@@ -2185,13 +2185,13 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": [ { "levelUid": 50, "dir": "e" }, { "levelUid": 51, "dir": "s" } ]
+			"__neighbours": [{ "levelUid": 54, "dir": "e" }]
 		},
 		{
 			"identifier": "Level_4",
 			"uid": 54,
-			"worldX": 384,
-			"worldY": 1536,
+			"worldX": 192,
+			"worldY": 672,
 			"pxWid": 864,
 			"pxHei": 960,
 			"__bgColor": "#696A79",
@@ -2484,7 +2484,7 @@
 					"entityInstances": []
 				}
 			],
-			"__neighbours": []
+			"__neighbours": [ { "levelUid": 50, "dir": "e" }, { "levelUid": 52, "dir": "w" } ]
 		}
 	]
 }

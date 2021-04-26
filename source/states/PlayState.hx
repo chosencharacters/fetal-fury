@@ -12,6 +12,7 @@ import openfl.filters.ColorMatrixFilter;
 import platforms.Block;
 import platforms.Exit;
 import platforms.UpgradeMonitor;
+import states.GameWinState;
 import ui.TimeUpDisplay;
 import ui.TimerDisplay;
 
@@ -27,7 +28,10 @@ class PlayState extends BaseState
 	public static var global_timer:Int = -1;
 
 	/**Global timer time set*/
-	static var global_timer_base:Int = 60 * 3;
+	static var global_timer_base:Int = 60 * 150; // 2:30
+
+	public static var BOSS_MODE:Bool = false;
+	public static var BOSS_CLEAR:Bool = false;
 
 	/**
 	 * Layers
@@ -48,7 +52,7 @@ class PlayState extends BaseState
 	public var miscBackP:FlxTypedGroup<FlxSpriteExt>;
 
 	public var level:Level;
-	public var LEVEL_CLEAR:Bool = false;
+	public var LEVEL_CLEAR:Bool = true;
 	public var GAME_OVER:Bool = false;
 
 	public static var current_level:Int = -1;
@@ -90,16 +94,19 @@ class PlayState extends BaseState
 
 		hitstop_manager();
 
+		boss_mode_handle();
+
 		FlxG.collide(players, level.col);
 		FlxG.collide(enemies, level.col);
 
-		if (FlxG.keys.anyJustPressed(["R"]))
+		if (FlxG.keys.anyJustPressed(["R"]) && hitstop <= 0)
 			reset_game();
 
 		super.update(elapsed);
 
 		if (global_timer > 0)
-			global_timer--;
+			if (hitstop <= 0 && !LEVEL_CLEAR && !BaseState.WIPING && !BOSS_CLEAR)
+				global_timer--;
 	}
 
 	function create_level()
@@ -170,6 +177,9 @@ class PlayState extends BaseState
 
 	public function soft_reset_playstate()
 	{
+		BOSS_MODE = false;
+		BOSS_CLEAR = false;
+		SoundPlayer.play_music("stage");
 		FlxG.camera.setFilters([]);
 		LEVEL_CLEAR = false;
 		clear_layers();
@@ -204,8 +214,10 @@ class PlayState extends BaseState
 		}
 	}
 
-	function reset_game()
+	public function reset_game()
 	{
+		BOSS_MODE = false;
+		BOSS_CLEAR = false;
 		GAME_OVER = false;
 		global_timer = global_timer_base;
 		current_level = starting_level;
@@ -213,5 +225,23 @@ class PlayState extends BaseState
 		LEVEL_CLEAR = false;
 		current_level = 0;
 		start_wipe(new PlayState(), true);
+	}
+
+	function boss_mode_handle()
+	{
+		if (!BOSS_MODE)
+			return;
+		if (!BOSS_CLEAR)
+		{
+			BOSS_CLEAR = enemies.getFirstAlive() == null;
+			if (BOSS_CLEAR)
+			{
+				hitstop = 999;
+				FlxG.camera.fade(FlxColor.BLACK, 1, false, function()
+				{
+					FlxG.switchState(new GameWinState());
+				}, true);
+			}
+		}
 	}
 }

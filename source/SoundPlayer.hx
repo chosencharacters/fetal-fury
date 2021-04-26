@@ -9,6 +9,9 @@ class SoundPlayer
 	public static function play_music(music_name:String)
 	{
 		if (music_name != MUSIC_ALREADY_PLAYING)
+		{
+			if (FlxG.sound.music != null)
+				FlxG.sound.music.stop();
 			switch (music_name)
 			{
 				case "stage":
@@ -16,6 +19,7 @@ class SoundPlayer
 				case "boss":
 					FlxG.sound.playMusic(AssetPaths.BossThemeJohnnyGuy__ogg, MUSIC_VOLUME);
 			}
+		}
 		MUSIC_ALREADY_PLAYING = music_name;
 	}
 

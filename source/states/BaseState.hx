@@ -51,6 +51,9 @@ class BaseState extends FlxState
 
 	function do_wipe()
 	{
+		if (wipe == null)
+			return;
+
 		remove(wipe, true);
 		add(wipe);
 

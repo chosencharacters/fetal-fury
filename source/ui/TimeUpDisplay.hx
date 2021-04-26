@@ -43,6 +43,10 @@ class TimeUpDisplay extends FlxSpriteExt
 		{
 			acceleration.y = 0;
 			y = 0;
+			if (Ctrl.anyB[1])
+			{
+				PlayState.self.reset_game();
+			}
 		}
 	}
 }
