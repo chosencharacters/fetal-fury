@@ -234,6 +234,13 @@ class Player extends Actor
 				flipX = true;
 			if (RIGHT && flipX)
 				flipX = false;
+			SoundPlayer.altSound(1, [
+				AssetPaths.PlayerATK1__ogg,
+				AssetPaths.PlayerATK2__ogg,
+				AssetPaths.PlayerATK3__ogg,
+				AssetPaths.PlayerATK4__ogg,
+				AssetPaths.PlayerATK5__ogg
+			]);
 		}
 		if (state != "whip")
 			return;
@@ -496,6 +503,7 @@ class Player extends Actor
 				var grp:FlxSpriteExt = grappling_hook.getFirstAlive();
 				anim("grapple");
 				head_sprite.anim("grapple");
+				inv = 15;
 
 				if (grp != null && grp.x != 0 && grp.y != 0)
 				{
@@ -634,6 +642,8 @@ class Player extends Actor
 				speed = Math.floor(speed * 1.25);
 			case "attack":
 				str++;
+			case "time":
+				PlayState.global_timer += 60 * 30;
 		}
 
 		saved_speed = speed;
