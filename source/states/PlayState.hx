@@ -37,6 +37,7 @@ class PlayState extends BaseState
 	public var miscBackP:FlxTypedGroup<FlxSpriteExt>;
 
 	public var level:Level;
+	public var LEVEL_CLEAR:Bool = false;
 
 	override public function create()
 	{
@@ -108,5 +109,10 @@ class PlayState extends BaseState
 	{
 		self = null;
 		super.kill();
+	}
+
+	public function level_clear()
+	{
+		start_wipe(new PlayState());
 	}
 }

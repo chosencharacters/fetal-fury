@@ -21,18 +21,23 @@ class Slime extends Enemy
 		health = 2;
 		str = 1;
 
-		sstateAnim("idle");
+		sstate("idle");
 	}
 
 	override function ai()
 	{
-		if (BaseState.WIPING)
+		if (BaseState.WIPING || PlayState.self.LEVEL_CLEAR)
+		{
+			velocity.set(0, 0);
+			animation.pause();
 			return;
+		}
 		super.ai();
 
 		switch (state)
 		{
 			case "idle":
+				animProtect("idle");
 				if (Utils.getDistanceM(this, clp()) < 320)
 					sstateAnim("move");
 			case "move":

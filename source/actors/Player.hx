@@ -2,6 +2,7 @@ package actors;
 
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
+import platforms.Exit;
 
 class Player extends Actor
 {
@@ -37,6 +38,10 @@ class Player extends Actor
 	var spawn_point:FlxPoint;
 
 	var land_melee:Melee;
+
+	var EXITING:Bool = false;
+
+	var target_exit:Exit;
 
 	public function new(?X:Float, ?Y:Float)
 	{
@@ -81,12 +86,16 @@ class Player extends Actor
 	{
 		if (!DYING)
 		{
-			controls();
-			enter();
-			movement();
-			head_movement();
-			whip_attack();
-			grapple();
+			exit();
+			if (!EXITING)
+			{
+				controls();
+				enter();
+				movement();
+				head_movement();
+				whip_attack();
+				grapple();
+			}
 		}
 		else
 		{
@@ -545,6 +554,45 @@ class Player extends Actor
 					sstate("enter_start");
 					setPosition(spawn_point.x, spawn_point.y);
 					enter();
+				}
+		}
+	}
+
+	function exit()
+	{
+		if (!EXITING)
+		{
+			for (e in PlayState.self.exits)
+			{
+				if (overlaps(e))
+				{
+					target_exit = e;
+					sstate("exit_start");
+				}
+			}
+		}
+
+		if (state.indexOf("exit") <= -1)
+			return;
+
+		inv = 999;
+		switch (state)
+		{
+			case "exit_start":
+				velocity.set(0, 0);
+				EXITING = true;
+				DYING = false;
+				anim("exit");
+				sstate("exit_anim");
+				setPosition(target_exit.x - target_exit.width / 2 + width / 2 + 70, target_exit.y + target_exit.height - height - 30);
+				flipX = false;
+				PlayState.self.LEVEL_CLEAR = true;
+			case "exit_anim":
+				if (animation.finished)
+				{
+					sstate("exit_finished");
+					visible = false;
+					PlayState.self.level_clear();
 				}
 		}
 	}
