@@ -16,8 +16,8 @@ class SlimeBoss extends Enemy
 
 		maxVelocity.set(speed, speed);
 		drag.set(100, 100);
-		setSize(76, 62);
-		offset.set(31, 46);
+		// setSize(76, 62);
+		// offset.set(31, 46);
 
 		health = 2;
 		str = 1;

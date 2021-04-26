@@ -6,8 +6,7 @@ class Block extends FlxSpriteExt
 	{
 		super(X, Y);
 
-		makeGraphic(96, 96, FlxColor.WHITE);
-		visible = false;
+		loadGraphic(AssetPaths.block__png);
 
 		PlayState.self.blocks.add(this);
 	}

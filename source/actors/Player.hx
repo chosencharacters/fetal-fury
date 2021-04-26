@@ -26,7 +26,7 @@ class Player extends Actor
 	var grapple_point:FlxPoint = new FlxPoint(-999, -999);
 	var grapple_enemy:Enemy;
 
-	var MAX_GRAPPLE_LENGTH:Int = 20;
+	var MAX_GRAPPLE_LENGTH:Int = 22;
 	var GRAPPLE_RATE:Int = 1;
 	var GRAPPLE_PIECE_WIDTH:Int = 17;
 

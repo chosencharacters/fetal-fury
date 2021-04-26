@@ -60,6 +60,7 @@ class Level extends LDTKLevel
 			{
 				case 2:
 					new Block(pos.x, pos.y);
+					setTileByIndex(index, 1);
 				case 4:
 					new Exit(pos.x, pos.y);
 			}
