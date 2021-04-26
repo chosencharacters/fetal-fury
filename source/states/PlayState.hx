@@ -8,11 +8,9 @@ import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import ldtk.Project;
 import levels.Level;
-import openfl.filters.ColorMatrixFilter;
 import platforms.Block;
 import platforms.Exit;
 import platforms.UpgradeMonitor;
-import ui.TimeUpDisplay;
 import ui.TimerDisplay;
 
 class PlayState extends BaseState
@@ -27,7 +25,7 @@ class PlayState extends BaseState
 	public static var global_timer:Int = -1;
 
 	/**Global timer time set*/
-	static var global_timer_base:Int = 60 * 3;
+	static var global_timer_base:Int = 60 * 90;
 
 	/**
 	 * Layers
@@ -49,7 +47,6 @@ class PlayState extends BaseState
 
 	public var level:Level;
 	public var LEVEL_CLEAR:Bool = false;
-	public var GAME_OVER:Bool = false;
 
 	public static var current_level:Int = -1;
 	public static var starting_level:Int = 0;
@@ -57,8 +54,6 @@ class PlayState extends BaseState
 	override public function create()
 	{
 		super.create();
-
-		SoundPlayer.play_music("stage");
 
 		if (current_level == -1)
 			current_level = starting_level;
@@ -86,8 +81,6 @@ class PlayState extends BaseState
 
 	override public function update(elapsed:Float)
 	{
-		handle_game_over();
-
 		hitstop_manager();
 
 		FlxG.collide(players, level.col);
@@ -98,8 +91,7 @@ class PlayState extends BaseState
 
 		super.update(elapsed);
 
-		if (global_timer > 0)
-			global_timer--;
+		global_timer--;
 	}
 
 	function create_level()
@@ -170,7 +162,6 @@ class PlayState extends BaseState
 
 	public function soft_reset_playstate()
 	{
-		FlxG.camera.setFilters([]);
 		LEVEL_CLEAR = false;
 		clear_layers();
 		create_level();
@@ -182,31 +173,8 @@ class PlayState extends BaseState
 		new TimerDisplay();
 	}
 
-	function time_up() {}
-
-	function handle_game_over()
-	{
-		if (GAME_OVER)
-			return;
-		if (global_timer == 0)
-		{
-			new TimeUpDisplay();
-			GAME_OVER = true;
-
-			var matrix:Array<Float> = [
-				0.5, 0.5, 0.5, 0, 0,
-				0.5, 0.5, 0.5, 0, 0,
-				0.5, 0.5, 0.5, 0, 0,
-				  0,   0,   0, 1, 0,
-			];
-
-			FlxG.camera.setFilters([new ColorMatrixFilter(matrix)]);
-		}
-	}
-
 	function reset_game()
 	{
-		GAME_OVER = false;
 		global_timer = global_timer_base;
 		current_level = starting_level;
 		Player.reset_base_stats();

@@ -3,7 +3,6 @@ import FlxSpriteExt;
 import LdtkProject;
 import Lists;
 import ProgressManager;
-import SoundPlayer;
 import Utils;
 import actors.Actor;
 import actors.Enemy;
