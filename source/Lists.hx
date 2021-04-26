@@ -26,6 +26,8 @@ class Lists
 	/** All the animation data*/
 	public static var animSets:Map<String, AnimSetData> = new Map<String, AnimSetData>();
 
+	static var base_animation_fps:Int = 12;
+
 	function new() {}
 
 	public static function init()
@@ -69,7 +71,7 @@ class Lists
 					var animDef:AnimDef = {
 						name: "",
 						frames: "",
-						fps: 10,
+						fps: base_animation_fps,
 						looping: true,
 						linked: ""
 					};

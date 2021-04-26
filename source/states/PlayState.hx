@@ -40,6 +40,8 @@ class PlayState extends BaseState
 	public var level:Level;
 	public var LEVEL_CLEAR:Bool = false;
 
+	public static var current_level:Int = 0;
+
 	override public function create()
 	{
 		super.create();
@@ -69,7 +71,7 @@ class PlayState extends BaseState
 		FlxG.collide(enemies, level.col);
 
 		if (FlxG.keys.anyJustPressed(["R"]))
-			start_wipe(new PlayState());
+			reset_game();
 
 		super.update(elapsed);
 	}
@@ -79,16 +81,16 @@ class PlayState extends BaseState
 		// Create project instance
 		var project = new LdtkProject();
 
-		add(level = new Level(project, "Level_0", AssetPaths.floor_1__png));
+		add(level = new Level(project, "Level_" + current_level, AssetPaths.floor_1__png));
 
+		var diff_x:Float = FlxG.width > level.width ? (FlxG.width - level.width) / 2 : 0;
+		var diff_y:Float = FlxG.height > level.height ? (FlxG.height - level.height) / 2 : 0;
 		FlxG.worldBounds.set(level.x, level.y, level.width, level.height);
-		FlxG.camera.setScrollBounds(level.x, level.width, level.y, level.height);
+		FlxG.camera.setScrollBounds(level.x - diff_x, level.width + diff_x, level.y - diff_y, level.height + diff_y);
 	}
 
 	function create_layers()
 	{
-		add(new FlxSpriteExt(0, 0, AssetPaths.basic_bg__png));
-
 		players = new FlxTypedGroup<Player>();
 		enemies = new FlxTypedGroup<Enemy>();
 		miscFront = new FlxTypedGroup<FlxSpriteExt>();
@@ -116,6 +118,13 @@ class PlayState extends BaseState
 
 	public function level_clear()
 	{
+		current_level++;
+		start_wipe(new PlayState());
+	}
+
+	function reset_game()
+	{
+		current_level = 0;
 		start_wipe(new PlayState());
 	}
 }

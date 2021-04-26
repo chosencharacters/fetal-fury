@@ -6,7 +6,7 @@ import platforms.Exit;
 
 class Player extends Actor
 {
-	var speed:Int = 250;
+	var speed:Int = 350;
 	var accelFrames:Int = 15;
 
 	var RIGHT:Bool = false;

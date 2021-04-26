@@ -1262,13 +1262,13 @@
 					"entityInstances": [
 						{
 							"__identifier": "Slime",
-							"__grid": [5,2],
+							"__grid": [6,2],
 							"__pivot": [0,0],
 							"__tile": { "tilesetUid": 35, "srcRect": [192,0,96,96] },
 							"width": 96,
 							"height": 96,
 							"defUid": 34,
-							"px": [480,192],
+							"px": [576,192],
 							"fieldInstances": []
 						}
 					]
