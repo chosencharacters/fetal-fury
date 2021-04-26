@@ -3,6 +3,7 @@ package ui;
 import flixel.FlxBasic;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.text.FlxText;
+import lime.tools.Asset;
 
 class TimerDisplay extends FlxTypedSpriteGroup<FlxSprite>
 {
@@ -51,5 +52,7 @@ class TimerDisplay extends FlxTypedSpriteGroup<FlxSprite>
 			if (flash_tick % flash_rate == 0)
 				text.visible = !text.visible;
 		}
+		if (time_in_frames <= 0)
+			text.visible = true;
 	}
 }
