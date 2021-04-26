@@ -15,6 +15,8 @@ class BaseState extends FlxState
 	private static var WIPE_PART_2:Bool = false;
 	private static var wipe_save_frame:Int = 0;
 
+	static var reset_playState_mode:Bool = false;
+
 	override public function create()
 	{
 		super.create();
@@ -62,7 +64,15 @@ class BaseState extends FlxState
 		if (wipe.x < wipeX && !WIPE_PART_2)
 		{
 			WIPE_PART_2 = true;
-			FlxG.switchState(wipe_state);
+			if (!reset_playState_mode)
+			{
+				FlxG.switchState(wipe_state);
+			}
+			else
+			{
+				PlayState.self.soft_reset_playstate();
+				reset_playState_mode = false;
+			}
 			return;
 		}
 
@@ -73,11 +83,12 @@ class BaseState extends FlxState
 		}
 	}
 
-	function start_wipe(new_wipe_state:BaseState, force:Bool = false)
+	function start_wipe(new_wipe_state:BaseState, reset_playState_mode_set:Bool = false, force:Bool = false)
 	{
 		if (WIPING && !force)
 			return;
 
+		reset_playState_mode = reset_playState_mode_set;
 		WIPE_PART_2 = false;
 		WIPING = true;
 		wipe.visible = true;

@@ -124,14 +124,14 @@ class Player extends Actor
 		switch (state)
 		{
 			case "enter_start":
-				offset.set(root_offset.x, root_offset.y + 325);
+				offset.set(root_offset.x, root_offset.y + 350);
 				animProtect("fall");
 				sstate("enter_fall");
 				inv = 999;
 			case "enter_fall":
 				if (BaseState.WIPING)
 					return;
-				offset.y -= 25;
+				offset.y -= 35;
 				if (offset.x == root_offset.x && offset.y == root_offset.y)
 				{
 					offset.set(root_offset.x, root_offset.y);
@@ -533,12 +533,7 @@ class Player extends Actor
 		switch (state)
 		{
 			case "die_hit":
-				if (grappling_hook.length < 0)
-				{
-					for (point in grappling_hook)
-						point.kill();
-					grappling_hook.clear();
-				}
+				clear_grappling_hook();
 				anim("hit");
 				ttick();
 				if (tick > 5)
@@ -575,6 +570,7 @@ class Player extends Actor
 				{
 					target_exit = e;
 					sstate("exit_start");
+					clear_grappling_hook();
 				}
 			}
 		}
@@ -601,6 +597,16 @@ class Player extends Actor
 					visible = false;
 					PlayState.self.level_clear();
 				}
+		}
+	}
+
+	function clear_grappling_hook()
+	{
+		if (grappling_hook.length < 0)
+		{
+			for (point in grappling_hook)
+				point.kill();
+			grappling_hook.clear();
 		}
 	}
 }

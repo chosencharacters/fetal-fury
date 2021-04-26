@@ -28,6 +28,7 @@ class PlayState extends BaseState
 	public var players:FlxTypedGroup<Player>;
 
 	public var enemies:FlxTypedGroup<Enemy>;
+	public var levels:FlxTypedGroup<Level>;
 	public var blocks:FlxTypedGroup<Block>;
 	public var exits:FlxTypedGroup<Exit>;
 
@@ -49,8 +50,8 @@ class PlayState extends BaseState
 		self = this;
 
 		create_layers();
-		create_level();
 
+		add(levels);
 		add(exits);
 		add(miscBack);
 		add(enemies);
@@ -60,7 +61,7 @@ class PlayState extends BaseState
 		add(blocks);
 		add(miscFront);
 
-		FlxG.camera.follow(players.getFirstAlive(), FlxCameraFollowStyle.TOPDOWN);
+		soft_reset_playstate();
 	}
 
 	override public function update(elapsed:Float)
@@ -81,16 +82,19 @@ class PlayState extends BaseState
 		// Create project instance
 		var project = new LdtkProject();
 
-		add(level = new Level(project, "Level_" + current_level, AssetPaths.floor_1__png));
+		levels.add(level = new Level(project, "Level_" + current_level, AssetPaths.floor_1__png));
 
 		var diff_x:Float = FlxG.width > level.width ? (FlxG.width - level.width) / 2 : 0;
 		var diff_y:Float = FlxG.height > level.height ? (FlxG.height - level.height) / 2 : 0;
 		FlxG.worldBounds.set(level.x, level.y, level.width, level.height);
 		FlxG.camera.setScrollBounds(level.x - diff_x, level.width + diff_x, level.y - diff_y, level.height + diff_y);
+
+		FlxG.camera.follow(players.getFirstAlive(), FlxCameraFollowStyle.TOPDOWN);
 	}
 
 	function create_layers()
 	{
+		levels = new FlxTypedGroup<Level>();
 		players = new FlxTypedGroup<Player>();
 		enemies = new FlxTypedGroup<Enemy>();
 		miscFront = new FlxTypedGroup<FlxSpriteExt>();
@@ -99,6 +103,19 @@ class PlayState extends BaseState
 		miscBackP = new FlxTypedGroup<FlxSpriteExt>();
 		exits = new FlxTypedGroup<Exit>();
 		blocks = new FlxTypedGroup<Block>();
+	}
+
+	function clear_layers()
+	{
+		levels.clear();
+		players.clear();
+		enemies.clear();
+		miscFront.clear();
+		miscBack.clear();
+		miscFrontP.clear();
+		miscBackP.clear();
+		exits.clear();
+		blocks.clear();
 	}
 
 	function hitstop_manager()
@@ -119,12 +136,20 @@ class PlayState extends BaseState
 	public function level_clear()
 	{
 		current_level++;
-		start_wipe(new PlayState());
+		start_wipe(new PlayState(), true);
+	}
+
+	public function soft_reset_playstate()
+	{
+		LEVEL_CLEAR = false;
+		clear_layers();
+		create_level();
 	}
 
 	function reset_game()
 	{
+		LEVEL_CLEAR = false;
 		current_level = 0;
-		start_wipe(new PlayState());
+		start_wipe(new PlayState(), true);
 	}
 }
