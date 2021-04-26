@@ -46,6 +46,14 @@ class SlimeSmol extends Enemy
 				if (Utils.getDistanceM(this, clp()) < detect_range)
 					sstateAnim("move");
 			case "move":
+				if (!isOnScreen())
+				{
+					sstate("idle");
+					return;
+				}
+
+				if (tick % 30 == 1)
+					SoundPlayer.altSound(2, [AssetPaths.EnemyLandAfterJump1__ogg, AssetPaths.EnemyLandAfterJump2__ogg], 0.5);
 				pathfinding_chase_player(speed / accel_frames);
 				melee_hit_player();
 			case "hit":

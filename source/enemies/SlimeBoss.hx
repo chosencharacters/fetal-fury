@@ -61,7 +61,10 @@ class SlimeBoss extends Enemy
 			case "idle":
 				animProtect("idle");
 				if (Utils.getDistanceM(this, clp()) < detect_range)
+				{
+					SoundPlayer.play_sound(AssetPaths.BossRolling1__ogg);
 					sstateAnim("roll");
+				}
 			case "roll":
 				if (animation.finished || animation.name == "idle")
 				{

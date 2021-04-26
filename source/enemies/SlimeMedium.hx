@@ -52,6 +52,15 @@ class SlimeMedium extends Enemy
 				if (Utils.getDistanceM(this, clp()) < detect_range)
 					sstateAnim("move");
 			case "move":
+				if (!isOnScreen())
+				{
+					sstate("idle");
+					return;
+				}
+
+				if (tick % 120 == 1)
+					SoundPlayer.altSound(2, [AssetPaths.EnemyLandAfterJump1__ogg, AssetPaths.EnemyLandAfterJump2__ogg]);
+
 				pathfinding_chase_player(speed / accel_frames);
 				melee_hit_player();
 
@@ -88,6 +97,7 @@ class SlimeMedium extends Enemy
 			case "summon":
 				if (animation.frameIndex == 9 && summon_time <= 0)
 				{
+					SoundPlayer.altSound(4, [AssetPaths.BossSpit1__ogg, AssetPaths.BossSpit2__ogg], 1);
 					summon_time = summon_time_set;
 					var smol = new SlimeSmol(getMidpoint().x - 71 / 2, getMidpoint().y - 71 / 2 + 32);
 					smol.velocity.x = flipX ? 999 : -999;

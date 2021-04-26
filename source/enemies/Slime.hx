@@ -47,6 +47,14 @@ class Slime extends Enemy
 				if (Utils.getDistanceM(this, clp()) < detect_range)
 					sstateAnim("move");
 			case "move":
+				if (!isOnScreen())
+				{
+					sstate("idle");
+					return;
+				}
+				ttick();
+				if (tick % 60 == 1)
+					SoundPlayer.altSound(2, [AssetPaths.EnemyLandAfterJump1__ogg, AssetPaths.EnemyLandAfterJump2__ogg]);
 				pathfinding_chase_player(speed / accel_frames);
 				melee_hit_player();
 			case "hit":

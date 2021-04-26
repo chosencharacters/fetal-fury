@@ -58,6 +58,9 @@ class PlayState extends BaseState
 	public var LEVEL_CLEAR:Bool = true;
 	public var GAME_OVER:Bool = false;
 
+	static var deaths:Int = 0;
+	static var death_announces:Int = 0;
+
 	override public function create()
 	{
 		super.create();
@@ -223,7 +226,7 @@ class PlayState extends BaseState
 		current_level = starting_level;
 		Player.reset_base_stats();
 		LEVEL_CLEAR = false;
-		current_level = 0;
+		current_level = starting_level;
 		start_wipe(new PlayState(), true);
 	}
 
@@ -243,5 +246,23 @@ class PlayState extends BaseState
 				}, true);
 			}
 		}
+	}
+
+	public function announce_dead()
+	{
+		if (death_announces <= 6)
+		{
+			SoundPlayer.altSound(5, [
+				AssetPaths.fetus_deletus_1__ogg,
+				AssetPaths.fetus_deletus_2__ogg,
+				AssetPaths.fetus_deletus_3__ogg
+			]);
+		}
+		else
+		{
+			SoundPlayer.play_sound(AssetPaths.fetus_deletus_rare__ogg);
+			death_announces = 0;
+		}
+		death_announces++;
 	}
 }

@@ -96,6 +96,7 @@ class UpgradeMonitor extends Actor
 		boom = new TempSprite(x - 125, y - 210);
 		boom.loadAllFromAnimationSet("upgrade_monitor_explosion");
 		PlayState.self.miscBack.add(boom);
+		SoundPlayer.play_sound(AssetPaths.upgrade_explosion__ogg);
 
 		for (p in PlayState.self.players)
 		{

@@ -283,6 +283,7 @@ class Player extends Actor
 					whip.animProtect("whip");
 					whip.flipY = false;
 					whip.melee_id = 1;
+					SoundPlayer.play_sound(AssetPaths.PlayerSwing1__ogg, 0.5);
 				case 11:
 					velocity.x = maxVelocity.x;
 					velocity.x = flipX ? -Math.abs(velocity.x) : Math.abs(velocity.x);
@@ -294,6 +295,7 @@ class Player extends Actor
 					whip.animProtect("whip");
 					whip.flipY = true;
 					whip.melee_id = 2;
+					SoundPlayer.play_sound(AssetPaths.PlayerSwing2__ogg, 0.5);
 			}
 		}
 
@@ -427,6 +429,7 @@ class Player extends Actor
 				flipX = true;
 			if (RIGHT && flipX)
 				flipX = false;
+			SoundPlayer.play_sound(AssetPaths.HookshotSticks__ogg, 1);
 		}
 		if (state.indexOf("grapple") <= -1)
 			return;
@@ -464,6 +467,7 @@ class Player extends Actor
 									grapple_enemy = e;
 									grapple_enemy.moves = false;
 									grapple_enemy.color = FlxColor.GRAY;
+									SoundPlayer.play_sound(AssetPaths.HookshotSticks2__ogg, 1);
 									// PlayState.self.hitstop = 10;
 								}
 							}
@@ -471,6 +475,7 @@ class Player extends Actor
 							{
 								if (e.overlaps(grappling_hook.members[c]) && FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
 								{
+									SoundPlayer.play_sound(AssetPaths.HookshotSticks2__ogg, 1);
 									sstate("grapple_pull");
 								}
 							}
@@ -499,6 +504,9 @@ class Player extends Actor
 					head_sprite.anim("side");
 				}
 			case "grapple_pull":
+				ttick();
+				if (tick % 30 == 1)
+					SoundPlayer.play_sound(AssetPaths.HookshotReelingPlayerLOOP__ogg, 1);
 				immovable = true;
 				var grp:FlxSpriteExt = grappling_hook.getFirstAlive();
 				anim("grapple");
@@ -540,6 +548,7 @@ class Player extends Actor
 	{
 		if (DYING)
 			return;
+		SoundPlayer.play_sound(AssetPaths.PlayerTakesDamage__ogg);
 		DYING = true;
 		sstate("die_hit");
 		super.killAssist();
@@ -568,6 +577,7 @@ class Player extends Actor
 				if (animation.finished)
 				{
 					sstate("die_wait");
+					PlayState.self.announce_dead();
 					blood_explode();
 				}
 			case "die_wait":

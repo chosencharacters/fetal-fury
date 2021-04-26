@@ -9,6 +9,8 @@ class Spikes extends Enemy
 		super(X, Y);
 		makeGraphic(96, 96);
 		visible = false;
+
+		DROP_SHADOW_DISABLE = true;
 	}
 
 	override function ai()

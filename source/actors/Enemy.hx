@@ -38,6 +38,7 @@ class Enemy extends Actor
 			{
 				animation.reset();
 				sstateAnim("hit");
+				SoundPlayer.altSound(3, [AssetPaths.EnemyIsHit1__ogg, AssetPaths.EnemyIsHit2__ogg], 1);
 			}
 			if (health <= 0)
 				DYING = true;

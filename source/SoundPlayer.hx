@@ -3,7 +3,7 @@ import flixel.system.FlxAssets.FlxSoundAsset;
 class SoundPlayer
 {
 	static var MUSIC_ALREADY_PLAYING:String = "";
-	public static var MUSIC_VOLUME:Float = 0.25;
+	public static var MUSIC_VOLUME:Float = 1;
 	public static var SOUND_VOLUME:Float = 1;
 
 	public static function play_music(music_name:String)
@@ -23,14 +23,14 @@ class SoundPlayer
 		MUSIC_ALREADY_PLAYING = music_name;
 	}
 
-	public static function play_sound(sound_asset:FlxSoundAsset)
+	public static function play_sound(sound_asset:FlxSoundAsset, vol:Float = 1)
 	{
-		FlxG.sound.play(sound_asset, SOUND_VOLUME);
+		FlxG.sound.play(sound_asset, SOUND_VOLUME * vol);
 	}
 
 	static var slots:Array<Array<FlxSoundAsset>> = [];
 
-	public static function altSound(slot:Int, sounds:Array<FlxSoundAsset>)
+	public static function altSound(slot:Int, sounds:Array<FlxSoundAsset>, vol:Float = 1)
 	{
 		#if nomusic
 		return;
@@ -39,8 +39,12 @@ class SoundPlayer
 		{
 			slots[slot] = sounds;
 		}
+
+		var f:FlxRandom = new FlxRandom();
+		f.shuffle(slots[slot]);
+
 		var soundToPlay:String = slots[slot].pop();
-		play_sound(soundToPlay);
+		play_sound(soundToPlay, vol);
 		slots[slot].push(soundToPlay);
 	}
 }
