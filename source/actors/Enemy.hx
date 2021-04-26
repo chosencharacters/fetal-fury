@@ -6,7 +6,9 @@ class Enemy extends Actor
 {
 	var follow_path:Array<FlxPoint>;
 	var pathfinding_tick:Int = 10;
+
 	var DYING:Bool = false;
+	var SUPER_ARMORED:Bool = false;
 
 	public function new(?X:Float, ?Y:Float)
 	{
@@ -32,8 +34,11 @@ class Enemy extends Actor
 
 		if (justHit && state != "kill" && !DYING)
 		{
-			animation.reset();
-			sstateAnim("hit");
+			if (!SUPER_ARMORED)
+			{
+				animation.reset();
+				sstateAnim("hit");
+			}
 			if (health <= 0)
 				DYING = true;
 		}

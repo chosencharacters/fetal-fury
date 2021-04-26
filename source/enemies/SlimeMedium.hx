@@ -22,7 +22,7 @@ class SlimeMedium extends Enemy
 		setSize(157, 117);
 		offset.set(19, 32);
 
-		health = 5;
+		health = 10;
 		str = 1;
 
 		sstate("idle");
@@ -30,6 +30,8 @@ class SlimeMedium extends Enemy
 
 	override function ai()
 	{
+		SUPER_ARMORED = false;
+
 		if (BaseState.WIPING || PlayState.self.LEVEL_CLEAR)
 		{
 			velocity.set(0, 0);
@@ -40,6 +42,11 @@ class SlimeMedium extends Enemy
 
 		switch (state)
 		{
+			case "spawn":
+				anim("move");
+				ttick();
+				if (tick > 60)
+					sstateAnim("idle");
 			case "idle":
 				animProtect("idle");
 				if (Utils.getDistanceM(this, clp()) < detect_range)
@@ -59,7 +66,10 @@ class SlimeMedium extends Enemy
 						sstateAnim("split");
 				}
 			case "split":
+				SUPER_ARMORED = true;
+
 				velocity.set();
+
 				if (animation.finished)
 				{
 					var pos:FlxPoint = FlxPoint.weak(x - offset.x, y - offset.y);

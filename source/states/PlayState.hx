@@ -11,6 +11,7 @@ import levels.Level;
 import platforms.Block;
 import platforms.Exit;
 import platforms.UpgradeMonitor;
+import ui.TimerDisplay;
 
 class PlayState extends BaseState
 {
@@ -21,7 +22,10 @@ class PlayState extends BaseState
 	public var hitstop:Int = 0;
 
 	/**Global timer time remaining*/
-	public var global_timer:Int = 60 * 60;
+	public static var global_timer:Int = -1;
+
+	/**Global timer time set*/
+	static var global_timer_base:Int = 60 * 90;
 
 	/**
 	 * Layers
@@ -33,6 +37,7 @@ class PlayState extends BaseState
 	public var blocks:FlxTypedGroup<Block>;
 	public var exits:FlxTypedGroup<Exit>;
 	public var upgrades:FlxTypedGroup<UpgradeMonitor>;
+	public var ui:FlxTypedGroup<FlxObject>;
 
 	public var miscFront:FlxTypedGroup<FlxSpriteExt>;
 	public var miscFrontP:FlxTypedGroup<FlxSpriteExt>;
@@ -52,6 +57,8 @@ class PlayState extends BaseState
 
 		if (current_level == -1)
 			current_level = starting_level;
+		if (global_timer == -1)
+			global_timer = global_timer_base;
 
 		self = this;
 
@@ -67,6 +74,7 @@ class PlayState extends BaseState
 		add(miscFrontP);
 		add(blocks);
 		add(miscFront);
+		add(ui);
 
 		soft_reset_playstate();
 	}
@@ -82,6 +90,8 @@ class PlayState extends BaseState
 			reset_game();
 
 		super.update(elapsed);
+
+		global_timer--;
 	}
 
 	function create_level()
@@ -111,6 +121,7 @@ class PlayState extends BaseState
 		exits = new FlxTypedGroup<Exit>();
 		blocks = new FlxTypedGroup<Block>();
 		upgrades = new FlxTypedGroup<UpgradeMonitor>();
+		ui = new FlxTypedGroup<FlxObject>();
 	}
 
 	function clear_layers()
@@ -125,6 +136,7 @@ class PlayState extends BaseState
 		exits.clear();
 		blocks.clear();
 		upgrades.clear();
+		ui.clear();
 	}
 
 	function hitstop_manager()
@@ -153,10 +165,17 @@ class PlayState extends BaseState
 		LEVEL_CLEAR = false;
 		clear_layers();
 		create_level();
+		create_ui();
+	}
+
+	function create_ui()
+	{
+		new TimerDisplay();
 	}
 
 	function reset_game()
 	{
+		global_timer = global_timer_base;
 		current_level = starting_level;
 		Player.reset_base_stats();
 		LEVEL_CLEAR = false;

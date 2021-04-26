@@ -1,4 +1,5 @@
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.text.FlxText;
 import lime.utils.Assets;
 
 class Utils
@@ -178,5 +179,54 @@ class Utils
 
 		if (intensity != 0 && time != 0)
 			FlxG.camera.shake(intensity, time);
+	}
+
+	/**
+	 * Takes text and auto formats it
+	 * @param text the FlxText to format
+	 * @param alignment alignment i.e. 'center' 'left' 'right'
+	 * @param color text color
+	 * @param outline use an outline or not
+	 * @return FlxText formatted text
+	 */
+	public static function formatText(text:FlxText, alignment:String = "left", color:Int = FlxColor.WHITE, outline:Bool = false):FlxText
+	{
+		var font:String = "assets/fonts/DIGITALDREAM.ttf";
+		var font_size:Int = 36;
+		if (outline)
+		{
+			text.setFormat(font, font_size, color, alignment, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		else
+		{
+			text.setFormat(font, font_size, color, alignment);
+		}
+		#if !flash
+		text.x -= 1;
+		text.y -= 1;
+		#end
+		return text;
+	}
+
+	/**
+	 * converts time in frames to minute, second, and frames (not nano seconds)
+	 * @param time input time in frames
+	 * @return String time formatted as 00:00:00
+	 */
+	public static function toTimer(time:Int):String
+	{
+		var minute:Int = Math.floor(time / (60 * 60));
+		var second:Int = Math.floor((time / 60) % 60);
+		var nano:Int = Math.floor(time % 60 / 60 * 100);
+		var minutes:String = minute + "";
+		var seconds:String = second + "";
+		var nanos:String = nano + "";
+		if (minute < 10)
+			minutes = "0" + minutes;
+		if (second < 10)
+			seconds = "0" + seconds;
+		if (nano < 10)
+			nanos = "0" + nanos;
+		return minutes + ":" + seconds + ":" + nanos;
 	}
 }
