@@ -11,6 +11,8 @@ class Spikes extends Enemy
 		visible = false;
 
 		DROP_SHADOW_DISABLE = true;
+
+		grabbable = false;
 	}
 
 	override function ai()

@@ -10,6 +10,8 @@ class Enemy extends Actor
 	var DYING:Bool = false;
 	var SUPER_ARMORED:Bool = false;
 
+	public var grabbable:Bool = true;
+
 	public function new(?X:Float, ?Y:Float)
 	{
 		super(X, Y);

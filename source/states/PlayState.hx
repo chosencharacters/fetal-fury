@@ -13,6 +13,8 @@ import platforms.Block;
 import platforms.Exit;
 import platforms.UpgradeMonitor;
 import states.GameWinState;
+import ui.DeadText;
+import ui.ExitText;
 import ui.TimeUpDisplay;
 import ui.TimerDisplay;
 
@@ -34,7 +36,7 @@ class PlayState extends BaseState
 	public static var BOSS_CLEAR:Bool = false;
 
 	public static var current_level:Int = -1;
-	public static var starting_level:Int = 1;
+	public static var starting_level:Int = 11;
 
 	/**
 	 * Layers
@@ -248,19 +250,36 @@ class PlayState extends BaseState
 		}
 	}
 
+	public function announce_exit()
+	{
+		new ExitText();
+		SoundPlayer.altSound(6, [
+			AssetPaths.AnnouncerExit1__ogg,
+			AssetPaths.AnnouncerExit2__ogg,
+			AssetPaths.AnnouncerExit3__ogg,
+			AssetPaths.AnnouncerExit4__ogg,
+			AssetPaths.AnnouncerExit5__ogg,
+			AssetPaths.AnnouncerExit6__ogg,
+			AssetPaths.AnnouncerExit7__ogg
+		]);
+	}
+
 	public function announce_dead()
 	{
+		new DeadText();
 		if (death_announces <= 6)
 		{
 			SoundPlayer.altSound(5, [
-				AssetPaths.fetus_deletus_1__ogg,
-				AssetPaths.fetus_deletus_2__ogg,
-				AssetPaths.fetus_deletus_3__ogg
+				AssetPaths.AnnouncerPlayerDeath1__ogg,
+				AssetPaths.AnnouncerPlayerDeath2__ogg,
+				AssetPaths.AnnouncerPlayerDeath3__ogg,
+				AssetPaths.AnnouncerPlayerDeath4__ogg,
+				AssetPaths.AnnouncerPlayerDeath5__ogg
 			]);
 		}
 		else
 		{
-			SoundPlayer.play_sound(AssetPaths.fetus_deletus_rare__ogg);
+			SoundPlayer.play_sound(AssetPaths.AnnouncerEasterEggFreakinBrutal__ogg);
 			death_announces = 0;
 		}
 		death_announces++;

@@ -6,6 +6,9 @@ class GameWinState extends BaseState
 
 	override public function create()
 	{
+		if (FlxG.sound.music != null)
+			FlxG.sound.music.stop();
+
 		FlxG.camera.fade(FlxColor.BLACK, 1, true, true);
 
 		bg = new FlxSprite(0, 0);

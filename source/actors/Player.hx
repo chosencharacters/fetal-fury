@@ -1,6 +1,7 @@
 package actors;
 
 import platforms.Exit;
+import ui.UpgradeText;
 
 class Player extends Actor
 {
@@ -213,7 +214,10 @@ class Player extends Actor
 		}
 		else if (!HORZ_MOVE && VERT_MOVE)
 		{
-			anim("vert_move");
+			if (!DOWN)
+				anim("vert_move");
+			else
+				anim("horz_move");
 			flipX = false;
 		}
 
@@ -439,6 +443,8 @@ class Player extends Actor
 				animProtect("grapple");
 				head_sprite.animProtect("grapple");
 				var len:Int = grappling_hook.length;
+				if (tick % 20 == 1)
+					SoundPlayer.play_sound(AssetPaths.HookshotReelingPlayerLOOP__ogg, 1);
 				if (tick % GRAPPLE_RATE == 0)
 				{
 					// keep shooting grappling hook
@@ -461,7 +467,9 @@ class Player extends Actor
 
 							for (e in PlayState.self.enemies)
 							{
-								if (e.overlaps(grappling_hook.members[c]) && FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
+								if (e.grabbable
+									&& e.overlaps(grappling_hook.members[c])
+									&& FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
 								{
 									sstate("grapple_pull");
 									grapple_enemy = e;
@@ -488,6 +496,10 @@ class Player extends Actor
 						sstate("grapple_retract");
 					}
 				}
+				for (e in grappling_hook.members)
+				{
+					e.visible = !(e.x == 0 && e.y == 0);
+				}
 				ttick();
 			case "grapple_retract":
 				if (grappling_hook.getFirstAlive() != null)
@@ -505,7 +517,7 @@ class Player extends Actor
 				}
 			case "grapple_pull":
 				ttick();
-				if (tick % 30 == 1)
+				if (tick % 20 == 1)
 					SoundPlayer.play_sound(AssetPaths.HookshotReelingPlayerLOOP__ogg, 1);
 				immovable = true;
 				var grp:FlxSpriteExt = grappling_hook.getFirstAlive();
@@ -605,6 +617,7 @@ class Player extends Actor
 					target_exit = e;
 					sstate("exit_start");
 					clear_grappling_hook();
+					PlayState.self.announce_exit();
 				}
 			}
 		}
@@ -650,11 +663,16 @@ class Player extends Actor
 		{
 			case "speed":
 				speed = Math.floor(speed * 1.25);
+				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeSpeed__ogg);
 			case "attack":
 				str++;
+				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeStrength__ogg);
 			case "time":
 				PlayState.global_timer += 60 * 30;
+				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeTime__ogg);
 		}
+
+		new UpgradeText();
 
 		saved_speed = speed;
 		saved_str = str;

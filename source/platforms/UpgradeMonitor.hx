@@ -18,6 +18,8 @@ class UpgradeMonitor extends Actor
 	var DESTROYED:Bool = false;
 	var DELAY_DESTROY:Bool = false;
 
+	static var DO_ANNOUNCER_VOICE:Bool = true;
+
 	public var INACTIVE:Bool = false;
 
 	public function new(?X:Float, ?Y:Float)
@@ -54,6 +56,12 @@ class UpgradeMonitor extends Actor
 			anim("destroyed");
 
 		ttick();
+
+		if (tick > 30 && DO_ANNOUNCER_VOICE)
+		{
+			SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeSelectionScreen__ogg);
+			DO_ANNOUNCER_VOICE = false;
+		}
 
 		for (p in PlayState.self.players)
 		{
@@ -114,5 +122,11 @@ class UpgradeMonitor extends Actor
 				u.INACTIVE = true;
 			}
 		}
+	}
+
+	override function kill()
+	{
+		DO_ANNOUNCER_VOICE = true;
+		super.kill();
 	}
 }

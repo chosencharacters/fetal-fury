@@ -22,7 +22,7 @@ class SlimeMedium extends Enemy
 		setSize(157, 117);
 		offset.set(19, 32);
 
-		health = 10;
+		health = 6;
 		str = 1;
 
 		sstate("idle");
@@ -52,7 +52,7 @@ class SlimeMedium extends Enemy
 				if (Utils.getDistanceM(this, clp()) < detect_range)
 					sstateAnim("move");
 			case "move":
-				if (!isOnScreen())
+				if (!isOnScreen() || PlayState.self.players.getFirstAlive() == null)
 				{
 					sstate("idle");
 					return;

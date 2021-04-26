@@ -8,6 +8,7 @@ class TimerDisplay extends FlxTypedSpriteGroup<FlxSprite>
 {
 	var bg:FlxSpriteExt;
 	var text:FlxText;
+	var fg:FlxSpriteExt;
 
 	var flash_rate:Int = 15;
 	var flash_tick:Int = 0;
@@ -18,11 +19,14 @@ class TimerDisplay extends FlxTypedSpriteGroup<FlxSprite>
 		super(X, Y);
 
 		bg = new FlxSpriteExt(AssetPaths.timer_background__png);
-		text = new FlxText(2, 2, bg.width, "59:99");
+		fg = new FlxSpriteExt(AssetPaths.timer_foreground__png);
+
+		text = new FlxText(2, 7, bg.width, "59:99");
 		text = Utils.formatText(text, "center", FlxColor.RED, true);
 
 		add(bg);
 		add(text);
+		add(fg);
 
 		x = FlxG.width / 2 - bg.width / 2;
 

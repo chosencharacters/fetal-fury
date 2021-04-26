@@ -46,7 +46,7 @@ class SlimeSmol extends Enemy
 				if (Utils.getDistanceM(this, clp()) < detect_range)
 					sstateAnim("move");
 			case "move":
-				if (!isOnScreen())
+				if (!isOnScreen() || PlayState.self.players.getFirstAlive() == null)
 				{
 					sstate("idle");
 					return;
