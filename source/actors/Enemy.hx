@@ -53,7 +53,7 @@ class Enemy extends Actor
 	 * This enemy does impact damage
 	 * @return Bool did deal it impact?
 	 */
-	function melee_hit_player():Bool
+	function melee_hit_player(target_all:Bool = false):Bool
 	{
 		if (stun > 0)
 			return false;
@@ -63,6 +63,20 @@ class Enemy extends Actor
 			{
 				p.hit(this, str, 10, FlxPoint.weak(500, 500));
 				return true;
+			}
+		}
+		if (target_all)
+		{
+			for (e in PlayState.self.enemies)
+			{
+				if (e != this && e.inv < 0 && overlaps(e) && FlxG.pixelPerfectOverlap(this, e))
+				{
+					if (e.team != team)
+					{
+						e.damage(str, 10, getMidpoint(), FlxPoint.weak(500, 500));
+					}
+					return true;
+				}
 			}
 		}
 		return false;

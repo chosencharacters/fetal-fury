@@ -33,8 +33,6 @@ class TimerDisplay extends FlxTypedSpriteGroup<FlxSprite>
 		scrollFactor.set(0, 0);
 
 		PlayState.self.ui.add(this);
-
-		trace(text.font);
 	}
 
 	override function update(elapsed:Float)

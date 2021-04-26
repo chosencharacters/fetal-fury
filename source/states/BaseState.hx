@@ -36,8 +36,6 @@ class BaseState extends FlxState
 		wipe.setPosition(wipe_position.x, wipe_position.y);
 
 		wipe.visible = false;
-
-		trace("NEW STATE");
 	}
 
 	override function update(elapsed:Float)

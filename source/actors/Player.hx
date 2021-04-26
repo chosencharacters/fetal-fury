@@ -565,14 +565,12 @@ class Player extends Actor
 		sstate("die_hit");
 		super.killAssist();
 		inv = 999;
-		trace("KILL ASSIST " + inv);
 	}
 
 	function die()
 	{
 		if (state.indexOf("die") <= -1)
 			return;
-		// trace(tick, state, animation.name);
 		inv = 999;
 
 		switch (state)
@@ -585,7 +583,6 @@ class Player extends Actor
 					sstate("die_anim");
 			case "die_anim":
 				animProtect("die");
-				// trace(animation.frameIndex, animation.finished);
 				if (animation.finished)
 				{
 					sstate("die_wait");
@@ -649,10 +646,13 @@ class Player extends Actor
 
 	function clear_grappling_hook()
 	{
-		if (grappling_hook.length < 0)
+		if (grappling_hook.length > 0)
 		{
 			for (point in grappling_hook)
+			{
 				point.kill();
+				point.visible = false;
+			}
 			grappling_hook.clear();
 		}
 	}

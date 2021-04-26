@@ -39,8 +39,6 @@ class BossIntro extends FlxSpriteExt
 
 		PlayState.self.hitstop = 2;
 
-		trace(state);
-
 		switch (state)
 		{
 			case "wait_start":

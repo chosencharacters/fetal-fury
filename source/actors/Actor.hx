@@ -99,7 +99,6 @@ class Actor extends FlxSpriteExt
 		var invulnerable:Bool = inv > 0;
 		var opposite_team:Bool = a.team == 0 || a.team > 0 && team < 0 || a.team < 0 && team > 0;
 
-		trace(invulnerable);
 		if (invulnerable || !opposite_team)
 			return false;
 
