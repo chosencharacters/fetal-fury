@@ -4,9 +4,11 @@ You got 1 minute to blast through your insides in non-stop furious action. Kick 
 
 Made for Ludum Dare 48!
 
-[LD48 Page](https://ldjam.com/events/ludum-dare/48/fetal-fury) [Itch.io](https://ldjam.com/events/ludum-dare/48/fetal-fury)
+[LD48 Page](https://ldjam.com/events/ludum-dare/48/fetal-fury) 
 
-Engine: [HaxeFlixel](https://haxeflixel.com/)
+[Itch.io Page](https://ldjam.com/events/ludum-dare/48/fetal-fury)
+
+[HaxeFlixel Engine](https://haxeflixel.com/)
 
 ### Notes
 
