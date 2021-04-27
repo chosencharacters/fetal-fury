@@ -8,6 +8,8 @@ class Pod extends FlxSpriteExt
 		loadGraphic(AssetPaths.pod__png);
 		PlayState.self.miscBack.add(this);
 
+		immovable = true;
+
 		SoundPlayer.play_sound(AssetPaths.AnnouncerNewGame__ogg);
 	}
 
