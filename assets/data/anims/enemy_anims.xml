@@ -37,6 +37,14 @@
         <anim name = "hit" looping = "false">21t24</anim>
         <anim name = "split" looping = "false">25t27</anim>
     </animSet>
+
+    <animSet image = "ghost" path = "assets\images\enemies\ghost" width = "160" height = "140">
+        <anim name = "idle" looping = "false">0t3</anim>
+        <anim name = "scare1" looping = "false">3t10</anim>
+        <anim name = "scare2" looping = "false">11t13</anim>
+        <anim name = "disappear" looping = "false">14t16</anim>
+        <anim name = "hit" looping = "false">3,2,1,0</anim>
+    </animSet>
 </root>
 
 <!---->

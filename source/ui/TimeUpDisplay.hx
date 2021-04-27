@@ -12,7 +12,7 @@ class TimeUpDisplay extends FlxSpriteExt
 
 		loadGraphic(AssetPaths.time_up__png);
 
-		FlxG.sound.pause();
+		FlxG.sound.music.pause();
 		SoundPlayer.play_sound(AssetPaths.record_scratch__ogg);
 
 		PlayState.self.hitstop = 2;
@@ -45,6 +45,7 @@ class TimeUpDisplay extends FlxSpriteExt
 			y = 0;
 			if (Ctrl.anyB[1])
 			{
+				FlxG.sound.music.resume();
 				PlayState.self.reset_game();
 			}
 		}

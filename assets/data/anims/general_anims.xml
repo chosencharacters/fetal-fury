@@ -17,10 +17,20 @@
 	<animSet image = "upgrade_monitor_explosion" path = "assets\images\sfx">
 		<anim name = "idle" looping = "false">0t12</anim>
 	</animSet>
+
+	<animSet image = "titlecard" path = "assets\images\ui\title">
+		<anim name = "idle">0t2</anim>
+	</animSet>
+
+	<animSet image = "pressZforFury" path = "assets\images\ui\title">
+		<anim name = "idle">0</anim>
+		<anim name = "pressed">1</anim>
+	</animSet>
+
+	<animSet image = "endcard" path = "assets\images\ui\endcard">
+		<anim name = "idle" fps = "10">0t1</anim>
+		<anim name = "end?" fps = "10">2t3</anim>
+	</animSet>
 </root>
 
-<!---->
-<!---->
-<!---->
-<!---->
 <!---->

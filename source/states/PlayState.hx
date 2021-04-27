@@ -14,6 +14,7 @@ import platforms.Exit;
 import platforms.UpgradeMonitor;
 import states.GameWinState;
 import ui.DeadText;
+import ui.DeathCounter;
 import ui.ExitText;
 import ui.TimeUpDisplay;
 import ui.TimerDisplay;
@@ -29,8 +30,11 @@ class PlayState extends BaseState
 	/**Global timer time remaining*/
 	public static var global_timer:Int = -1;
 
+	/**Global timer time elapsed*/
+	public static var reverse_global_timer:Int = -1;
+
 	/**Global timer time set*/
-	static var global_timer_base:Int = 60 * 150; // 2:30
+	static var global_timer_base:Int = 60 * 60; // 2:30
 
 	public static var BOSS_MODE:Bool = false;
 	public static var BOSS_CLEAR:Bool = false;
@@ -60,7 +64,7 @@ class PlayState extends BaseState
 	public var LEVEL_CLEAR:Bool = true;
 	public var GAME_OVER:Bool = false;
 
-	static var deaths:Int = 0;
+	public static var deaths:Int = 0;
 	static var death_announces:Int = 0;
 
 	override public function create()
@@ -68,11 +72,15 @@ class PlayState extends BaseState
 		super.create();
 
 		SoundPlayer.play_music("stage");
+		SoundPlayer.MUSIC_ALREADY_PLAYING = "";
 
 		if (current_level == -1)
 			current_level = starting_level;
 		if (global_timer == -1)
+		{
 			global_timer = global_timer_base;
+			reverse_global_timer = 0;
+		}
 
 		self = this;
 
@@ -91,6 +99,7 @@ class PlayState extends BaseState
 		add(ui);
 
 		soft_reset_playstate();
+		reset_game();
 	}
 
 	override public function update(elapsed:Float)
@@ -110,8 +119,13 @@ class PlayState extends BaseState
 		super.update(elapsed);
 
 		if (global_timer > 0)
+		{
 			if (hitstop <= 0 && !LEVEL_CLEAR && !BaseState.WIPING && !BOSS_CLEAR)
+			{
 				global_timer--;
+				reverse_global_timer++;
+			}
+		}
 	}
 
 	function create_level()
@@ -182,6 +196,7 @@ class PlayState extends BaseState
 
 	public function soft_reset_playstate()
 	{
+		UpgradeMonitor.DO_ANNOUNCER_VOICE = true;
 		BOSS_MODE = false;
 		BOSS_CLEAR = false;
 		SoundPlayer.play_music("stage");
@@ -195,6 +210,7 @@ class PlayState extends BaseState
 	function create_ui()
 	{
 		new TimerDisplay();
+		PlayState.self.ui.add(new DeathCounter());
 	}
 
 	function time_up() {}
@@ -221,10 +237,13 @@ class PlayState extends BaseState
 
 	public function reset_game()
 	{
+		deaths = 0;
+		SoundPlayer.play_music("stage");
 		BOSS_MODE = false;
 		BOSS_CLEAR = false;
 		GAME_OVER = false;
 		global_timer = global_timer_base;
+		reverse_global_timer = 0;
 		current_level = starting_level;
 		Player.reset_base_stats();
 		LEVEL_CLEAR = false;
@@ -269,6 +288,7 @@ class PlayState extends BaseState
 
 	public function announce_dead()
 	{
+		deaths++;
 		new DeadText();
 		if (death_announces <= 6)
 		{

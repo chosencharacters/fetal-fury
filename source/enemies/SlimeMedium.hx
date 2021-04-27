@@ -4,7 +4,7 @@ class SlimeMedium extends Enemy
 {
 	var speed:Int = 200;
 	var accel_frames:Int = 15;
-	var detect_range:Float = 320;
+	var detect_range:Float = 640;
 
 	var vision:Int = 0;
 
@@ -48,7 +48,7 @@ class SlimeMedium extends Enemy
 				if (tick > 60)
 					sstateAnim("idle");
 			case "idle":
-				animProtect("idle");
+				anim("idle");
 				if (Utils.getDistanceM(this, clp()) < detect_range)
 					sstateAnim("move");
 			case "move":

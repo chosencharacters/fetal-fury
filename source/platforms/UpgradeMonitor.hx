@@ -18,7 +18,7 @@ class UpgradeMonitor extends Actor
 	var DESTROYED:Bool = false;
 	var DELAY_DESTROY:Bool = false;
 
-	static var DO_ANNOUNCER_VOICE:Bool = true;
+	public static var DO_ANNOUNCER_VOICE:Bool = true;
 
 	public var INACTIVE:Bool = false;
 
@@ -122,11 +122,5 @@ class UpgradeMonitor extends Actor
 				u.INACTIVE = true;
 			}
 		}
-	}
-
-	override function kill()
-	{
-		DO_ANNOUNCER_VOICE = true;
-		super.kill();
 	}
 }

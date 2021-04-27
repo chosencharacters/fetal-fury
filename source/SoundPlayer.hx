@@ -2,12 +2,14 @@ import flixel.system.FlxAssets.FlxSoundAsset;
 
 class SoundPlayer
 {
-	static var MUSIC_ALREADY_PLAYING:String = "";
+	public static var MUSIC_ALREADY_PLAYING:String = "";
 	public static var MUSIC_VOLUME:Float = .6;
 	public static var SOUND_VOLUME:Float = 1;
 
 	public static function play_music(music_name:String)
 	{
+		if (FlxG.sound.music == null)
+			MUSIC_ALREADY_PLAYING = "";
 		if (music_name != MUSIC_ALREADY_PLAYING)
 		{
 			if (FlxG.sound.music != null)

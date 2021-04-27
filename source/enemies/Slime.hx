@@ -43,7 +43,7 @@ class Slime extends Enemy
 				if (tick > 60)
 					sstateAnim("idle");
 			case "idle":
-				animProtect("idle");
+				anim("idle");
 				if (Utils.getDistanceM(this, clp()) < detect_range)
 					sstateAnim("move");
 			case "move":
