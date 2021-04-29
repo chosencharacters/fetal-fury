@@ -1,5 +1,6 @@
 package actors;
 
+import flixel.math.FlxVector;
 import lime.math.Vector2;
 import platforms.Exit;
 import ui.UpgradeText;
@@ -10,7 +11,7 @@ class Player extends Actor
 	static var base_str:Int = 1;
 
 	var speed:Int = 0;
-	var accelFrames:Int = 3;
+	var accelFrames:Int = 15;
 
 	var RIGHT:Bool = false;
 	var UP:Bool = false;
@@ -449,6 +450,9 @@ class Player extends Actor
 				var len:Int = grappling_hook.length;
 				if (tick % 20 == 1)
 					SoundPlayer.play_sound(AssetPaths.HookshotReelingPlayerLOOP__ogg, 1);
+
+				update_grapple_position();
+
 				if (tick % GRAPPLE_RATE == 0)
 				{
 					// keep shooting grappling hook
@@ -457,50 +461,6 @@ class Player extends Actor
 						var grapple_piece:FlxSpriteExt = new FlxSpriteExt(0, 0, AssetPaths.grapple__png);
 						grappling_hook.add(grapple_piece);
 
-						for (c in 0...len)
-						{
-							var spawn_point:FlxPoint = c > 0 ? grappling_hook.members[c - 1].getMidpoint(FlxPoint.weak()) : getMidpoint(FlxPoint.weak(-999,
-								-999));
-
-							/*
-								if (flipX)
-									spawn_point.x -= GRAPPLE_PIECE_WIDTH * 2;
-								else
-									spawn_point.x += GRAPPLE_PIECE_WIDTH;
-
-								spawn_point.y += pre_grapple_velocity.y / 10; */
-
-							var positions = [];
-							var length:Float = GRAPPLE_PIECE_WIDTH * c;
-							var radians:Float = Math.atan2(velocity.y, velocity.x);
-							var pos:FlxPoint = FlxPoint.weak(length * Math.cos(radians), length * Math.sin(radians));
-							pos.add(spawn_point.x, spawn_point.y);
-
-							grappling_hook.members[c].setPosition(pos.x, pos.y);
-
-							for (e in PlayState.self.enemies)
-							{
-								if (e.grabbable
-									&& e.overlaps(grappling_hook.members[c])
-									&& FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
-								{
-									sstate("grapple_pull");
-									grapple_enemy = e;
-									grapple_enemy.moves = false;
-									grapple_enemy.color = FlxColor.GRAY;
-									SoundPlayer.play_sound(AssetPaths.HookshotSticks2__ogg, 1);
-									// PlayState.self.hitstop = 10;
-								}
-							}
-							for (e in PlayState.self.blocks)
-							{
-								if (e.overlaps(grappling_hook.members[c]) && FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
-								{
-									SoundPlayer.play_sound(AssetPaths.HookshotSticks2__ogg, 1);
-									sstate("grapple_pull");
-								}
-							}
-						}
 						PlayState.self.miscFrontP.add(grapple_piece);
 					}
 					else // max grappling hook range reached
@@ -515,6 +475,8 @@ class Player extends Actor
 				}
 				ttick();
 			case "grapple_retract":
+				update_grapple_position();
+
 				if (grappling_hook.getFirstAlive() != null)
 				{
 					grappling_hook.members[grappling_hook.members.length - 1].kill();
@@ -566,6 +528,48 @@ class Player extends Actor
 					anim("idle");
 					head_sprite.anim("side");
 				}
+		}
+	}
+
+	function update_grapple_position()
+	{
+		var len:Int = grappling_hook.length;
+
+		if (len <= 0)
+			return;
+		for (c in 0...(len - 1))
+		{
+			var spawn_point:FlxPoint = getMidpoint(FlxPoint.weak());
+
+			var pos:FlxVector = FlxVector.get((GRAPPLE_PIECE_WIDTH + 4) * c, 0);
+			pos.degrees = (pre_grapple_velocity : FlxVector).degrees;
+			pos.add(spawn_point.x, spawn_point.y);
+
+			if (grappling_hook.members[c] != null)
+			{
+				grappling_hook.members[c].setPosition(pos.x, pos.y);
+
+				for (e in PlayState.self.enemies)
+				{
+					if (e.grabbable && e.overlaps(grappling_hook.members[c]) && FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
+					{
+						sstate("grapple_pull");
+						grapple_enemy = e;
+						grapple_enemy.moves = false;
+						grapple_enemy.color = FlxColor.GRAY;
+						SoundPlayer.play_sound(AssetPaths.HookshotSticks2__ogg, 1);
+						// PlayState.self.hitstop = 10;
+					}
+				}
+				for (e in PlayState.self.blocks)
+				{
+					if (e.overlaps(grappling_hook.members[c]) && FlxG.pixelPerfectOverlap(e, grappling_hook.members[c]))
+					{
+						SoundPlayer.play_sound(AssetPaths.HookshotSticks2__ogg, 1);
+						sstate("grapple_pull");
+					}
+				}
+			}
 		}
 	}
 
