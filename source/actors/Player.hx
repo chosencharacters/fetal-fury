@@ -1,5 +1,6 @@
 package actors;
 
+import lime.math.Vector2;
 import platforms.Exit;
 import ui.UpgradeText;
 
@@ -9,7 +10,7 @@ class Player extends Actor
 	static var base_str:Int = 1;
 
 	var speed:Int = 0;
-	var accelFrames:Int = 15;
+	var accelFrames:Int = 3;
 
 	var RIGHT:Bool = false;
 	var UP:Bool = false;
@@ -423,6 +424,8 @@ class Player extends Actor
 		head_sprite.setPosition(head_sprite.x - offset.x, head_sprite.y - offset.y);
 	}
 
+	var pre_grapple_velocity:FlxPoint = new FlxPoint();
+
 	function grapple()
 	{
 		if (state == "move" && GRAPPLE)
@@ -433,6 +436,7 @@ class Player extends Actor
 				flipX = true;
 			if (RIGHT && flipX)
 				flipX = false;
+			pre_grapple_velocity.copyFrom(velocity);
 			SoundPlayer.play_sound(AssetPaths.HookshotSticks__ogg, 1);
 		}
 		if (state.indexOf("grapple") <= -1)
@@ -458,12 +462,21 @@ class Player extends Actor
 							var spawn_point:FlxPoint = c > 0 ? grappling_hook.members[c - 1].getMidpoint(FlxPoint.weak()) : getMidpoint(FlxPoint.weak(-999,
 								-999));
 
-							if (flipX)
-								spawn_point.x -= GRAPPLE_PIECE_WIDTH * 2;
-							else
-								spawn_point.x += GRAPPLE_PIECE_WIDTH;
+							/*
+								if (flipX)
+									spawn_point.x -= GRAPPLE_PIECE_WIDTH * 2;
+								else
+									spawn_point.x += GRAPPLE_PIECE_WIDTH;
 
-							grappling_hook.members[c].setPosition(spawn_point.x, spawn_point.y - GRAPPLE_PIECE_WIDTH / 2);
+								spawn_point.y += pre_grapple_velocity.y / 10; */
+
+							var positions = [];
+							var length:Float = GRAPPLE_PIECE_WIDTH * c;
+							var radians:Float = Math.atan2(velocity.y, velocity.x);
+							var pos:FlxPoint = FlxPoint.weak(length * Math.cos(radians), length * Math.sin(radians));
+							pos.add(spawn_point.x, spawn_point.y);
+
+							grappling_hook.members[c].setPosition(pos.x, pos.y);
 
 							for (e in PlayState.self.enemies)
 							{
