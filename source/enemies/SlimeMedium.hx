@@ -24,6 +24,7 @@ class SlimeMedium extends Enemy
 
 		health = 6;
 		str = 1;
+		time_value = 3;
 
 		sstate("idle");
 	}

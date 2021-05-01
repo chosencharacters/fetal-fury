@@ -12,6 +12,9 @@ class Enemy extends Actor
 
 	public var grabbable:Bool = true;
 
+	/* Time value this enemy adds when killed */
+	var time_value:Float = 1;
+
 	public function new(?X:Float, ?Y:Float)
 	{
 		super(X, Y);
@@ -43,7 +46,10 @@ class Enemy extends Actor
 				SoundPlayer.altSound(3, [AssetPaths.EnemyIsHit1__ogg, AssetPaths.EnemyIsHit2__ogg], 1);
 			}
 			if (health <= 0)
+			{
 				DYING = true;
+				time_increment(time_value);
+			}
 		}
 
 		return result;
@@ -168,5 +174,10 @@ class Enemy extends Actor
 			velocity.y += accel_rate;
 		if (mp1.y > mp2.y)
 			velocity.y -= accel_rate;
+	}
+
+	function time_increment(seconds:Float = 1)
+	{
+		PlayState.global_timer += Math.floor(seconds * 60);
 	}
 }

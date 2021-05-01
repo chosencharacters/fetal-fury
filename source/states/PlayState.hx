@@ -34,7 +34,7 @@ class PlayState extends BaseState
 	public static var reverse_global_timer:Int = -1;
 
 	/**Global timer time set*/
-	static var global_timer_base:Int = 60 * 60; // 2:30
+	static var global_timer_base:Int = 30 * 60; // 2:30
 
 	public static var BOSS_MODE:Bool = false;
 	public static var BOSS_CLEAR:Bool = false;

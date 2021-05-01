@@ -35,6 +35,8 @@ class SlimeBoss extends Enemy
 
 		DROP_SHADOW_DISABLE = true;
 
+		time_value = 5;
+
 		new BossIntro(this);
 	}
 

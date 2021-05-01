@@ -11,7 +11,7 @@ class Player extends Actor
 	static var base_str:Int = 1;
 
 	var speed:Int = 0;
-	var accelFrames:Int = 15;
+	var accelFrames:Int = 10;
 
 	var RIGHT:Bool = false;
 	var UP:Bool = false;
@@ -702,7 +702,7 @@ class Player extends Actor
 				str++;
 				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeStrength__ogg);
 			case "time":
-				PlayState.global_timer += 60 * 30;
+				PlayState.global_timer += 60 * 10;
 				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeTime__ogg);
 		}
 

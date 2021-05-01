@@ -22,6 +22,8 @@ class SlimeSmol extends Enemy
 		health = 1;
 		str = 1;
 
+		time_value = 1;
+
 		sstate("idle");
 	}
 
