@@ -50,6 +50,8 @@ class Player extends Actor
 	static var saved_speed:Int = 350;
 	static var saved_str:Int = 1;
 
+	var MOMENTUM_HOOK:Bool = false;
+
 	public function new(?X:Float, ?Y:Float)
 	{
 		super(X, Y);
@@ -426,6 +428,7 @@ class Player extends Actor
 	}
 
 	var pre_grapple_velocity:FlxPoint = new FlxPoint();
+	var grapple_direction:FlxPoint = new FlxPoint();
 
 	function grapple()
 	{
@@ -439,6 +442,20 @@ class Player extends Actor
 				flipX = false;
 			pre_grapple_velocity.copyFrom(velocity);
 			SoundPlayer.play_sound(AssetPaths.HookshotSticks__ogg, 1);
+			if (!MOMENTUM_HOOK)
+			{
+				pre_grapple_velocity.set();
+				if (UP)
+					pre_grapple_velocity.y = -1;
+				if (DOWN)
+					pre_grapple_velocity.y = 1;
+				if (RIGHT)
+					pre_grapple_velocity.x = 1;
+				if (LEFT)
+					pre_grapple_velocity.x = -1;
+				if (!LEFT && !RIGHT && !UP && !DOWN)
+					pre_grapple_velocity.x = flipX ? -1 : 1;
+			}
 		}
 		if (state.indexOf("grapple") <= -1)
 			return;
@@ -541,7 +558,7 @@ class Player extends Actor
 		{
 			var spawn_point:FlxPoint = getMidpoint(FlxPoint.weak());
 
-			var pos:FlxVector = FlxVector.get((GRAPPLE_PIECE_WIDTH + 4) * c, 0);
+			var pos:FlxVector = FlxVector.get((GRAPPLE_PIECE_WIDTH + 8) * c, 0);
 			pos.degrees = (pre_grapple_velocity : FlxVector).degrees;
 			pos.add(spawn_point.x, spawn_point.y);
 
