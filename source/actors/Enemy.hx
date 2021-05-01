@@ -1,6 +1,7 @@
 package actors;
 
 import flixel.util.FlxPath;
+import ui.TimerDisplay;
 
 class Enemy extends Actor
 {
@@ -48,7 +49,6 @@ class Enemy extends Actor
 			if (health <= 0)
 			{
 				DYING = true;
-				time_increment(time_value);
 			}
 		}
 
@@ -178,6 +178,6 @@ class Enemy extends Actor
 
 	function time_increment(seconds:Float = 1)
 	{
-		PlayState.global_timer += Math.floor(seconds * 60);
+		TimerDisplay.add_time(seconds);
 	}
 }

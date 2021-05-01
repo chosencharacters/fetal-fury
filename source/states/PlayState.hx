@@ -30,11 +30,17 @@ class PlayState extends BaseState
 	/**Global timer time remaining*/
 	public static var global_timer:Int = -1;
 
+	/**This will be gradually, but not instantly, added to the total time*/
+	public static var bonus_time:Int = 0;
+
+	/**time before the bonus_time countdown effect kicks in*/
+	public static var bonus_time_delay:Int = 0;
+
 	/**Global timer time elapsed*/
 	public static var reverse_global_timer:Int = -1;
 
 	/**Global timer time set*/
-	static var global_timer_base:Int = 30 * 60; // 2:30
+	static var global_timer_base:Int = 30 * 60; // 0:30
 
 	public static var BOSS_MODE:Bool = false;
 	public static var BOSS_CLEAR:Bool = false;
@@ -100,6 +106,8 @@ class PlayState extends BaseState
 
 		soft_reset_playstate();
 		reset_game();
+
+		TimerDisplay.add_time(10);
 	}
 
 	override public function update(elapsed:Float)

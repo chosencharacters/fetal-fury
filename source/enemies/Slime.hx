@@ -63,7 +63,10 @@ class Slime extends Enemy
 				{
 					sstateAnim("idle");
 					if (health <= 0)
+					{
 						sstateAnim("kill");
+						time_increment(time_value);
+					}
 				}
 			case "kill":
 				if (animation.finished)

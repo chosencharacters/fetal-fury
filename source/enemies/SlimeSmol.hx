@@ -63,6 +63,7 @@ class SlimeSmol extends Enemy
 				ai();
 			case "kill":
 				blood_explode();
+				time_increment(time_value);
 				kill();
 		}
 	}

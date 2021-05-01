@@ -3,6 +3,7 @@ package actors;
 import flixel.math.FlxVector;
 import lime.math.Vector2;
 import platforms.Exit;
+import ui.TimerDisplay;
 import ui.UpgradeText;
 
 class Player extends Actor
@@ -702,7 +703,7 @@ class Player extends Actor
 				str++;
 				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeStrength__ogg);
 			case "time":
-				PlayState.global_timer += 60 * 10;
+				TimerDisplay.add_time(10);
 				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeTime__ogg);
 		}
 

@@ -111,6 +111,8 @@ class SlimeBoss extends Enemy
 
 				if (animation.finished)
 				{
+					time_increment(time_value);
+
 					var pos:FlxPoint = FlxPoint.weak(x - offset.x, y - offset.y);
 
 					var left:SlimeMedium = new SlimeMedium(x - 17, y + 83 - 31);

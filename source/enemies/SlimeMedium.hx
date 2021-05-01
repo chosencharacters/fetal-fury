@@ -82,6 +82,8 @@ class SlimeMedium extends Enemy
 
 				if (animation.finished)
 				{
+					time_increment(time_value);
+
 					var pos:FlxPoint = FlxPoint.weak(x - offset.x, y - offset.y);
 
 					var left:Slime = new Slime(x - 17, y + 83 - 31);
