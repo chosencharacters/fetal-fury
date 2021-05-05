@@ -12,7 +12,7 @@ class Player extends Actor
 	static var base_str:Int = 1;
 
 	var speed:Int = 0;
-	var accelFrames:Int = 10;
+	var accelFrames:Int = 12;
 
 	var RIGHT:Bool = false;
 	var UP:Bool = false;
@@ -75,7 +75,7 @@ class Player extends Actor
 		impact_hit = new Melee(-999, -999, team, str, new FlxPoint(500, 100));
 
 		maxVelocity.set(speed, speed);
-		drag.set(500, 500);
+		drag.set(1000, 1000);
 
 		grappling_hook = new FlxTypedGroup<FlxSpriteExt>();
 
@@ -178,7 +178,7 @@ class Player extends Actor
 			return;
 
 		maxVelocity.set(speed, speed);
-		drag.set(500, 500);
+		drag.set(750, 750);
 
 		var HORZ_MOVE:Bool = RIGHT || LEFT;
 		var VERT_MOVE:Bool = UP || DOWN;

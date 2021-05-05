@@ -106,8 +106,6 @@ class PlayState extends BaseState
 
 		soft_reset_playstate();
 		reset_game();
-
-		TimerDisplay.add_time(10);
 	}
 
 	override public function update(elapsed:Float)

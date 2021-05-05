@@ -25,7 +25,7 @@ class TimerDisplay extends FlxTypedSpriteGroup<FlxSprite>
 		text = new FlxText(2, 7, bg.width, "59:99");
 		text = Utils.formatText(text, "center", FlxColor.RED, true);
 
-		text_bonus = new FlxText(-12, text.y + text.height + 4, bg.width, "+99:99:99");
+		text_bonus = new FlxText(-12, text.y + text.height + 8, bg.width, "+99:99:99");
 		text_bonus = Utils.formatText(text_bonus, "center", FlxColor.LIME, true);
 
 		add(bg);
