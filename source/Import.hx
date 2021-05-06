@@ -21,3 +21,4 @@ import flixel.math.FlxVelocity;
 import flixel.util.FlxColor;
 import states.BaseState;
 import states.PlayState;
+import ui.NGMedalPopUp;

@@ -73,6 +73,8 @@ class PlayState extends BaseState
 	public static var deaths:Int = 0;
 	static var death_announces:Int = 0;
 
+	var medal_tick:Int = 0;
+
 	override public function create()
 	{
 		super.create();
@@ -248,10 +250,12 @@ class PlayState extends BaseState
 		BOSS_MODE = false;
 		BOSS_CLEAR = false;
 		GAME_OVER = false;
+		bonus_time = 0;
+		bonus_time_delay = 0;
 		global_timer = global_timer_base;
 		reverse_global_timer = 0;
 		current_level = starting_level;
-		Player.reset_base_stats();
+		actors.Player.reset_base_stats();
 		LEVEL_CLEAR = false;
 		current_level = starting_level;
 		start_wipe(new PlayState(), true);

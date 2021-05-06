@@ -13,6 +13,8 @@ class TitleState extends BaseState
 
 	var CAN_GO_ON:Bool = false;
 
+	var medal_tick:Int = 0;
+
 	override public function create()
 	{
 		super.create();
@@ -41,6 +43,10 @@ class TitleState extends BaseState
 
 	override function update(elapsed:Float)
 	{
+		trace(medal_tick);
+		medal_tick++;
+		if (medal_tick == 60)
+			new NGMedalPopUp("No, really");
 		tick++;
 		press_z.visible = (tick % 30 > 10 || GAME_STARTED) && CAN_GO_ON;
 

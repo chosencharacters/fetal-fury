@@ -189,10 +189,9 @@ class Utils
 	 * @param outline use an outline or not
 	 * @return FlxText formatted text
 	 */
-	public static function formatText(text:FlxText, alignment:String = "left", color:Int = FlxColor.WHITE, outline:Bool = false):FlxText
+	public static function formatText(text:FlxText, alignment:String = "left", color:Int = FlxColor.WHITE, outline:Bool = false, font_size:Int = 36,
+			font:String = "assets/fonts/DIGITALDREAM.ttf"):FlxText
 	{
-		var font:String = "assets/fonts/DIGITALDREAM.ttf";
-		var font_size:Int = 36;
 		if (outline)
 		{
 			text.setFormat(font, font_size, color, alignment, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
