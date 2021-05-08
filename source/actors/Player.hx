@@ -87,7 +87,7 @@ class Player extends Actor
 		setSize(24, 51);
 		offset.set(root_offset.x, root_offset.y);
 
-		head_sprite.visible = false;
+		// head_sprite.visible = false;
 
 		land_melee = new Melee(-99, -99, team, 0, 30, FlxPoint.weak(2000, 2000), 3);
 		land_melee.makeGraphic(frameWidth, frameHeight, FlxColor.WHITE);
@@ -219,10 +219,7 @@ class Player extends Actor
 		}
 		else if (!HORZ_MOVE && VERT_MOVE)
 		{
-			if (!DOWN)
-				anim("vert_move");
-			else
-				anim("horz_move");
+			anim("vert_move");
 			flipX = false;
 		}
 
@@ -339,6 +336,8 @@ class Player extends Actor
 		}
 	}
 
+	var WAS_BACK:Bool = false; // back head lock if was going back and idles
+
 	function head_movement()
 	{
 		var left_mod:Int = flipX ? -21 : 0;
@@ -347,7 +346,9 @@ class Player extends Actor
 		head_sprite.drag.copyFrom(drag);
 		head_sprite.acceleration.copyFrom(acceleration);
 
-		var FRONT_HEAD:Bool = !(UP && FlxMath.inBounds(animation.frameIndex, 4, 7));
+		WAS_BACK = UP || WAS_BACK && !DOWN;
+
+		var FRONT_HEAD:Bool = !((UP || WAS_BACK) && FlxMath.inBounds(animation.frameIndex, 4, 7));
 
 		switch (animation.frameIndex)
 		{
@@ -370,15 +371,15 @@ class Player extends Actor
 				head_sprite.flipX = true;
 			case 5:
 				head_sprite.setPosition(x - 3, y - 20);
-				UP ? head_sprite.anim("back") : head_sprite.anim("front");
+				(UP || WAS_BACK) ? head_sprite.anim("back") : head_sprite.anim("front");
 				head_sprite.flipX = true;
 			case 6:
 				head_sprite.setPosition(x - 3, y - 19);
-				UP ? head_sprite.anim("back_squash") : head_sprite.anim("front_squash");
+				(UP || WAS_BACK) ? head_sprite.anim("back_squash") : head_sprite.anim("front_squash");
 				head_sprite.flipX = false;
 			case 7:
 				head_sprite.setPosition(x - 2, y - 20);
-				UP ? head_sprite.anim("back") : head_sprite.anim("front");
+				(UP || WAS_BACK) ? head_sprite.anim("back") : head_sprite.anim("front");
 				head_sprite.flipX = false;
 			// whip 1
 			case 8:
