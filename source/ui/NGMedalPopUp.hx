@@ -2,6 +2,11 @@ package ui;
 
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.text.FlxText;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
+import openfl.display.Loader;
+import openfl.geom.Point;
+import openfl.net.URLRequest;
 
 class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 {
@@ -10,8 +15,10 @@ class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 	var medal:FlxSpriteExt;
 	var bg:FlxSpriteExt;
 	var medal_name:FlxText;
+	var points_text:FlxText;
 
 	var medal_name_raw:String = "";
+	var points_text_raw:String = "";
 
 	var medal_text_dismiss:Bool = false;
 
@@ -23,7 +30,12 @@ class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 
 	var animation_unpause_delay:Int = 0;
 
-	public function new(MedalName:String)
+	var loader:Loader;
+	var LOADED_MEDAL_IMAGE:Bool = false;
+
+	var medal_text_max_length:Int = 10; // 14 for smaller letters but fetal fury is in all caps so...
+
+	public function new(MedalName:String, MedalURL:String = "")
 	{
 		super();
 
@@ -32,7 +44,12 @@ class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 		medal_name = new FlxText(71 - 8, 35 - 4, 168 + 12, "");
 		medal_name = Utils.formatText(medal_name, "center", FlxColor.WHITE, true, 22, "assets/fonts/Verdana.ttf");
 
-		construct_main_boxes();
+		points_text = new FlxText(171 + 21, 9, 50, "");
+		points_text = Utils.formatText(points_text, "center", FlxColor.WHITE, true, 12, "assets/fonts/Verdana.ttf");
+		points_text.italic = true;
+		points_text_raw = "100pts";
+
+		construct_main_boxes(MedalURL);
 
 		setPosition(FlxG.width - width, FlxG.height - height + 2);
 
@@ -43,7 +60,19 @@ class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 
 	override function update(elapsed:Float)
 	{
+		if (loader != null)
+		{
+			if (loader.numChildren > 0 && !LOADED_MEDAL_IMAGE)
+			{
+				medal.makeGraphic(50, 50, FlxColor.WHITE);
+				var bmp:BitmapData = cast(loader.getChildAt(0), Bitmap).bitmapData;
+				var m_bmp:BitmapData = medal.graphic.bitmap;
+				medal.graphic.bitmap.copyPixels(bmp, m_bmp.rect, new Point());
+				LOADED_MEDAL_IMAGE = true;
+			}
+		}
 		medal_text_manager();
+		points_text_manager();
 		sound_manager();
 		medal.visible = top.animation.frameIndex >= 15 && top.animation.frameIndex <= 42;
 		if (top.animation.finished)
@@ -51,7 +80,7 @@ class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 		super.update(elapsed);
 	}
 
-	function construct_main_boxes()
+	function construct_main_boxes(MedalURL:String)
 	{
 		top = new FlxSpriteExt();
 		middle = new FlxSpriteExt();
@@ -64,12 +93,21 @@ class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 		for (sprite in [top, middle, bg])
 			sprite.animAddPlay("popup", "0t30,31h36,32t51", 36, false);
 
-		medal = new FlxSpriteExt(10, 10, AssetPaths.medal_gamestart__png);
+		medal = new FlxSpriteExt(10, 10);
 		medal.visible = false;
+
+		medal.loadGraphic(AssetPaths.no_medal__png);
+
+		if (MedalURL != "")
+		{
+			loader = new Loader();
+			loader.load(new URLRequest(MedalURL));
+		}
 
 		add(bg);
 		add(medal);
 		add(medal_name);
+		add(points_text);
 		add(middle);
 		add(top);
 	}
@@ -85,7 +123,7 @@ class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 			medal_tick++;
 			if (medal_name_raw.length > 0)
 			{
-				if (medal_name.text.length < 14 && !medal_text_overflow)
+				if (medal_name.text.length < medal_text_max_length && !medal_text_overflow)
 				{
 					medal_name.text = medal_name.text + medal_name_raw.charAt(0);
 					medal_name_raw = medal_name_raw.substr(1);
@@ -114,11 +152,41 @@ class NGMedalPopUp extends FlxTypedSpriteGroup<FlxSprite>
 			{
 				medal_name.text = medal_name.text.substr(0, medal_name.text.length - 1);
 			}
+			else
+			{
+				medal_name.alpha = 0;
+			}
 		}
 		animation_unpause_delay--;
 		if (animation_unpause_delay == 0)
 			for (sprite in [top, middle, bg])
 				sprite.animation.resume();
+	}
+
+	function points_text_manager()
+	{
+		points_text.visible = medal_name.visible;
+		if (!points_text.visible)
+			return;
+		if (!medal_text_dismiss)
+		{
+			if (points_text_raw.length > 0)
+			{
+				points_text.text = points_text.text + points_text_raw.charAt(0);
+				points_text_raw = points_text_raw.substr(1);
+			}
+		}
+		else
+		{
+			if (points_text.text.length > 0)
+			{
+				points_text.text = points_text.text.substr(0, points_text.text.length - 1);
+			}
+			else
+			{
+				points_text.alpha = 0;
+			}
+		}
 	}
 
 	function sound_manager()

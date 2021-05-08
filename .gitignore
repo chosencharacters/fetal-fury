@@ -3,3 +3,4 @@ dump
 .DS_Store
 assets/data/levels/f/backups
 assets/data/levels/levels/backups/
+assets/data/config/ng_api/ng_secrets.json

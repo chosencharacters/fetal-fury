@@ -42,6 +42,7 @@
 	<!--<haxelib name="flixel-addons" />-->
 	<haxelib name="ldtk-haxe-api"/>
 	<haxelib name="deepnightLibs"/>
+	<haxelib name="newgrounds" unless="hl"/>
 
 	<!--In case you want to use the ui package-->
 	<!--<haxelib name="flixel-ui" />-->

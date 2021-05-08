@@ -12,11 +12,18 @@ class Main extends Sprite
 
 	public static var REVERSE_MENU_CONTROLS:Bool = false;
 	public static var DISABLE_SCREENSHAKE:Bool = false;
+	public static var NG_LOGGED_IN:Bool = false;
 
 	public function new()
 	{
 		super();
 
+		trace("vid game");
+
+		#if html5
+		trace("vid game!!!");
+		NewgroundsHandler.init();
+		#end
 		Lists.init();
 		Ctrl.set();
 

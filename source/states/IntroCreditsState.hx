@@ -24,9 +24,8 @@ class IntroCreditsState extends BaseState
 
 	override function update(elapsed:Float)
 	{
-		medal_tick--;
-		if (medal_tick == 0)
-			new NGMedalPopUp("This is in your play history forever");
+		medal_handler();
+
 		wait_for_next--;
 		if (Ctrl.any(Ctrl.anyB) && wait_for_next > 0 && medal_tick <= 0)
 			wait_for_next = 0;
@@ -38,5 +37,16 @@ class IntroCreditsState extends BaseState
 			}, true);
 		}
 		super.update(elapsed);
+	}
+
+	function medal_handler()
+	{
+		#if html5
+		medal_tick--;
+		if (medal_tick == 0)
+			NewgroundsHandler.medal_popup(63281);
+		#else
+		medal_tick = 0;
+		#end
 	}
 }

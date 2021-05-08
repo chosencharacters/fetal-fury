@@ -22,3 +22,6 @@ import flixel.util.FlxColor;
 import states.BaseState;
 import states.PlayState;
 import ui.NGMedalPopUp;
+#if html5
+import NewgroundsHandler;
+#end

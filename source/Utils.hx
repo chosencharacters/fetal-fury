@@ -1,6 +1,7 @@
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.text.FlxText;
 import lime.utils.Assets;
+import openfl.Assets;
 
 class Utils
 {
@@ -227,5 +228,10 @@ class Utils
 		if (nano < 10)
 			nanos = "0" + nanos;
 		return minutes + ":" + seconds + ":" + nanos;
+	}
+
+	public static function loadAssistString(path:String):String
+	{
+		return openfl.Assets.getText(path);
 	}
 }
