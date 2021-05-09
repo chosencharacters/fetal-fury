@@ -35,23 +35,34 @@ class Player extends Actor
 	var GRAPPLE_PIECE_WIDTH:Int = 17;
 
 	var continue_attacking:Bool = false;
+	var whip_count:Int = 0;
 
 	var root_offset:FlxPoint = new FlxPoint(39, 65);
-
-	var DYING:Bool = false;
 
 	var spawn_point:FlxPoint;
 
 	var land_melee:Melee;
 
+	/*Is the player in the process of DYING? Halts most other functions.*/
+	var DYING:Bool = false;
+
+	/*Is the player in the process of EXITING? Halts most other functions.*/
 	var EXITING:Bool = false;
 
+	/*The activated exit, so we snap to it*/
 	var target_exit:Exit;
 
+	/**The player's speed cross-level, reset on game reset. This is the stat upgrades are applied to*/
 	static var saved_speed:Int = 350;
+
+	/**The player's str cross-level, reset on game reset. This is the stat upgrades are applied to*/
 	static var saved_str:Int = 1;
 
+	/**Use the depreciated momentum hook control style? Could be cool for an item later on...**/
 	var MOMENTUM_HOOK:Bool = false;
+
+	/**Literal facing direction*/
+	var FACING_DIR:Int = FlxObject.DOWN;
 
 	public function new(?X:Float, ?Y:Float)
 	{
@@ -126,9 +137,9 @@ class Player extends Actor
 	function controls()
 	{
 		RIGHT = Ctrl.right[team];
-		LEFT = Ctrl.left[team];
+		LEFT = Ctrl.left[team] && !RIGHT;
 		UP = Ctrl.up[team];
-		DOWN = Ctrl.down[team];
+		DOWN = Ctrl.down[team] && !UP;
 		ATTACK = Ctrl.jattack[team];
 		GRAPPLE = Ctrl.jgrapple[team];
 		CHARGE_ATTACK = Ctrl.attack[team];
@@ -164,7 +175,7 @@ class Player extends Actor
 				ttick();
 				if (tick >= 5)
 				{
-					anim("idle");
+					anim("vert_move");
 					sstate("move");
 					inv = 15;
 				}
@@ -216,11 +227,13 @@ class Player extends Actor
 			flipX = LEFT;
 			if (LEFT && RIGHT)
 				flipX = velocity.x < 0;
+			FACING_DIR = flipX ? FlxObject.RIGHT : FlxObject.LEFT;
 		}
 		else if (!HORZ_MOVE && VERT_MOVE)
 		{
 			anim("vert_move");
 			flipX = false;
+			FACING_DIR = UP ? FlxObject.UP : FlxObject.DOWN;
 		}
 
 		if (!HORZ_MOVE && !VERT_MOVE)
@@ -234,6 +247,15 @@ class Player extends Actor
 	{
 		if (state == "move" && ATTACK)
 		{
+			if (LEFT)
+				FACING_DIR = FlxObject.LEFT;
+			if (RIGHT)
+				FACING_DIR = FlxObject.RIGHT;
+			if (UP)
+				FACING_DIR = FlxObject.UP;
+			if (DOWN)
+				FACING_DIR = FlxObject.DOWN;
+
 			anim("idle");
 			state = "whip";
 			if (LEFT && !flipX)
@@ -247,14 +269,10 @@ class Player extends Actor
 				AssetPaths.PlayerATK4__ogg,
 				AssetPaths.PlayerATK5__ogg
 			]);
+			whip_count = 0;
 		}
 		if (state != "whip")
 			return;
-
-		if (ATTACK && animation.frameIndex >= 8)
-			continue_attacking = true;
-
-		animProtect("whip");
 
 		maxVelocity.set(speed * 1.65, speed * 1.65);
 		drag.set(1000, 1000);
@@ -264,76 +282,163 @@ class Player extends Actor
 		whip.drag.copyFrom(drag);
 		whip.acceleration.copyFrom(acceleration);
 
-		if (!flipX)
-			whip.setPosition(x, y - 1);
-		if (flipX)
-			whip.setPosition(x - 50, y - 1);
+		var HORZ_ATTACK:Bool = (FACING_DIR == FlxObject.LEFT || FACING_DIR == FlxObject.RIGHT);
+		var VERT_ATTACK:Bool = (FACING_DIR == FlxObject.UP || FACING_DIR == FlxObject.DOWN) && !HORZ_ATTACK;
 
-		whip.setPosition(whip.x - offset.x, whip.y - offset.y);
+		if (ATTACK && animation.frameIndex >= 8 && HORZ_ATTACK || VERT_ATTACK && ATTACK && whip.animation.frameIndex >= 1)
+			continue_attacking = true;
+
+		HORZ_ATTACK ? animProtect("whip") : animProtect("whip_vert");
 
 		whip.visible = true;
 		// whip.color = FlxColor.PURPLE;
 
-		if (prevFrame != animation.frameIndex)
+		/**
+		 * Horizontal attack, 1 - 2 jabs
+		 */
+		if (HORZ_ATTACK)
 		{
-			switch (animation.frameIndex)
+			whip.angle = 0;
+
+			if (!flipX)
+				whip.setPosition(x, y - 1);
+			if (flipX)
+				whip.setPosition(x - 50, y - 1);
+
+			whip.setPosition(whip.x - offset.x, whip.y - offset.y);
+			if (prevFrame != animation.frameIndex)
 			{
-				case 8:
-					velocity.x = maxVelocity.x;
-					velocity.x = flipX ? -Math.abs(velocity.x) : Math.abs(velocity.x);
-					if (UP)
-						velocity.y = -maxVelocity.y;
-					if (DOWN)
-						velocity.y = maxVelocity.y;
-					whip.animProtect("reset");
-					whip.animProtect("whip");
-					whip.flipY = false;
-					whip.melee_id = 1;
-					SoundPlayer.play_sound(AssetPaths.PlayerSwing1__ogg, 0.5);
-				case 11:
-					velocity.x = maxVelocity.x;
-					velocity.x = flipX ? -Math.abs(velocity.x) : Math.abs(velocity.x);
-					if (UP)
-						velocity.y = -maxVelocity.y;
-					if (DOWN)
-						velocity.y = maxVelocity.y;
-					whip.animProtect("reset");
-					whip.animProtect("whip");
-					whip.flipY = true;
-					whip.melee_id = 2;
-					SoundPlayer.play_sound(AssetPaths.PlayerSwing2__ogg, 0.5);
+				switch (animation.frameIndex)
+				{
+					case 8:
+						velocity.x = maxVelocity.x;
+						velocity.x = flipX ? -Math.abs(velocity.x) : Math.abs(velocity.x);
+						if (UP)
+							velocity.y = -maxVelocity.y;
+						if (DOWN)
+							velocity.y = maxVelocity.y;
+						whip.animProtect("reset");
+						whip.animProtect("whip");
+						whip.flipY = false;
+						whip.melee_id = 1;
+						SoundPlayer.play_sound(AssetPaths.PlayerSwing1__ogg, 0.5);
+					case 11:
+						velocity.x = maxVelocity.x;
+						velocity.x = flipX ? -Math.abs(velocity.x) : Math.abs(velocity.x);
+						if (UP)
+							velocity.y = -maxVelocity.y;
+						if (DOWN)
+							velocity.y = maxVelocity.y;
+						whip.animProtect("reset");
+						whip.animProtect("whip");
+						whip.flipY = true;
+						whip.melee_id = 2;
+						SoundPlayer.play_sound(AssetPaths.PlayerSwing2__ogg, 0.5);
+				}
+			}
+			if (animation.finished || animation.frameIndex >= 10 && !continue_attacking)
+			{
+				if (!continue_attacking)
+					anim("idle");
+				state = "move";
+				whip.visible = false;
+				continue_attacking = false;
+				if (continue_attacking)
+					anim("idle");
 			}
 		}
 
+		/**
+		 * Vertical attack, single quick jab
+		 */
+		if (VERT_ATTACK)
+		{
+			if (FACING_DIR == FlxObject.UP)
+				whip.setPosition(x - 20, y - 20);
+			if (FACING_DIR == FlxObject.DOWN)
+				whip.setPosition(x - 30, y + 20);
+
+			if (FACING_DIR == FlxObject.DOWN && isTouching(FlxObject.DOWN))
+				velocity.y = -velocity.y;
+
+			whip.angle = 90 * 3;
+			whip.flipX = FACING_DIR != FlxObject.UP;
+
+			whip.setPosition(whip.x - offset.x, whip.y - offset.y);
+
+			switch (whip_count % 2)
+			{
+				case 0:
+					if (DOWN)
+						FACING_DIR = FlxObject.DOWN;
+					if (UP)
+						FACING_DIR = FlxObject.UP;
+					if (LEFT)
+						velocity.x = -maxVelocity.y * .5;
+					if (RIGHT)
+						velocity.x = maxVelocity.y * .5;
+
+					whip.animProtect("reset");
+					whip.animProtect("whip");
+					anim("whip_vert");
+					whip_count++;
+
+					if (FACING_DIR == FlxObject.UP)
+						velocity.y = -maxVelocity.y;
+					if (FACING_DIR == FlxObject.DOWN)
+						velocity.y = maxVelocity.y;
+				case 1:
+					if (whip.animation.finished)
+					{
+						if (LEFT)
+							FACING_DIR = FlxObject.LEFT;
+						if (RIGHT)
+							FACING_DIR = FlxObject.RIGHT;
+						if (UP)
+							FACING_DIR = FlxObject.UP;
+						if (DOWN)
+							FACING_DIR = FlxObject.DOWN;
+
+						anim("idle");
+						anim("vert_move");
+						if (continue_attacking && !HORZ_ATTACK)
+						{
+							whip_count++;
+							whip.flipY = !whip.flipY;
+							whip.flipX = !whip.flipX;
+							continue_attacking = false;
+						}
+						else
+						{
+							state = "move";
+							whip.visible = false;
+							continue_attacking = false;
+						}
+					}
+			}
+		}
+
+		/**
+		 * Opposite movement drag
+		 */
 		if (LEFT && velocity.x > 0)
 			velocity.x = velocity.x * .9;
 		if (RIGHT && velocity.x < 0)
 			velocity.x = velocity.x * .9;
-
-		if (animation.finished || animation.frameIndex >= 10 && !continue_attacking)
-		{
-			if (!continue_attacking)
-				anim("idle");
-			state = "move";
-			whip.visible = false;
-			continue_attacking = false;
-			if (continue_attacking)
-				anim("idle");
-		}
+		if (UP && velocity.y > 0)
+			velocity.y = velocity.y * .9;
+		if (DOWN && velocity.y < 0)
+			velocity.y = velocity.y * .9;
 
 		var enemy_hit:Bool = false;
 		for (e in PlayState.self.enemies)
 			if (e.hitM(whip))
 				enemy_hit = true;
-
 		for (e in PlayState.self.upgrades)
 			if (e.hitM(whip))
 				enemy_hit = true;
-
 		if (enemy_hit)
-		{
 			velocity.set(velocity.x * .5, velocity.y * .5);
-		}
 	}
 
 	var WAS_BACK:Bool = false; // back head lock if was going back and idles
@@ -346,9 +451,14 @@ class Player extends Actor
 		head_sprite.drag.copyFrom(drag);
 		head_sprite.acceleration.copyFrom(acceleration);
 
-		WAS_BACK = UP || WAS_BACK && !DOWN;
+		WAS_BACK = FACING_DIR == FlxObject.UP || WAS_BACK && FACING_DIR != FlxObject.DOWN;
 
 		var FRONT_HEAD:Bool = !((UP || WAS_BACK) && FlxMath.inBounds(animation.frameIndex, 4, 7));
+
+		if (DYING || EXITING)
+			head_sprite.visible = false;
+		else
+			head_sprite.visible = true;
 
 		switch (animation.frameIndex)
 		{
@@ -367,19 +477,19 @@ class Player extends Actor
 				head_sprite.anim("side");
 			case 4:
 				head_sprite.setPosition(x - 4, y - 16);
-				UP ? head_sprite.anim("back_squash") : head_sprite.anim("front_squash");
+				(UP || FACING_DIR == FlxObject.UP) ? head_sprite.anim("back_squash") : head_sprite.anim("front_squash");
 				head_sprite.flipX = true;
 			case 5:
 				head_sprite.setPosition(x - 3, y - 20);
-				(UP || WAS_BACK) ? head_sprite.anim("back") : head_sprite.anim("front");
+				(UP || FACING_DIR == FlxObject.UP) ? head_sprite.anim("back") : head_sprite.anim("front");
 				head_sprite.flipX = true;
 			case 6:
 				head_sprite.setPosition(x - 3, y - 19);
-				(UP || WAS_BACK) ? head_sprite.anim("back_squash") : head_sprite.anim("front_squash");
+				(UP || FACING_DIR == FlxObject.UP) ? head_sprite.anim("back_squash") : head_sprite.anim("front_squash");
 				head_sprite.flipX = false;
 			case 7:
 				head_sprite.setPosition(x - 2, y - 20);
-				(UP || WAS_BACK) ? head_sprite.anim("back") : head_sprite.anim("front");
+				(UP || FACING_DIR == FlxObject.UP) ? head_sprite.anim("back") : head_sprite.anim("front");
 				head_sprite.flipX = false;
 			// whip 1
 			case 8:
@@ -488,10 +598,15 @@ class Player extends Actor
 						sstate("grapple_retract");
 					}
 				}
+
 				for (e in grappling_hook.members)
-				{
 					e.visible = !(e.x == 0 && e.y == 0);
-				}
+
+				if (pre_grapple_velocity.y < 0)
+					for (e in 0...grappling_hook.length)
+						if (grappling_hook.members[e] != null)
+							grappling_hook.members[e].visible = e > 3;
+
 				ttick();
 			case "grapple_retract":
 				update_grapple_position();
@@ -598,6 +713,7 @@ class Player extends Actor
 			return;
 		SoundPlayer.play_sound(AssetPaths.PlayerTakesDamage__ogg);
 		DYING = true;
+		head_sprite.visible = false;
 		sstate("die_hit");
 		super.killAssist();
 		inv = 999;
@@ -651,6 +767,7 @@ class Player extends Actor
 					sstate("exit_start");
 					clear_grappling_hook();
 					PlayState.self.announce_exit();
+					head_sprite.visible = false;
 				}
 			}
 		}

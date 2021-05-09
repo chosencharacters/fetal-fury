@@ -6,6 +6,7 @@
         <anim name = "horz_move">0t3</anim>
         <anim name = "vert_move">4t7</anim>
         <anim name = "whip" looping = "false" fps = "16">8h2,9t10,11h2,12</anim>
+        <anim name = "whip_vert" looping = "false" fps = "16">4t7</anim>
         <anim name = "grapple">13t16t10</anim>
         <anim name = "exit" looping = "false">17t23</anim>
         <anim name = "fall">24</anim>
@@ -31,8 +32,5 @@
     </animSet>
 </root>
 
-<!---->
-<!---->
-<!---->
 <!---->
 <!---->

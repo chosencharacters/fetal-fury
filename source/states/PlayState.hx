@@ -122,7 +122,10 @@ class PlayState extends BaseState
 		FlxG.collide(enemies, level.col);
 
 		if (FlxG.keys.anyJustPressed(["R"]) && hitstop <= 0)
+		{
 			reset_game();
+			NewgroundsHandler.post_score(60);
+		}
 
 		super.update(elapsed);
 
