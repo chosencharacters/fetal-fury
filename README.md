@@ -6,7 +6,7 @@ Made for Ludum Dare 48!
 
 [LD48 Page](https://ldjam.com/events/ludum-dare/48/fetal-fury) 
 
-[Itch.io Page](https://ldjam.com/events/ludum-dare/48/fetal-fury)
+[Itch.io Page](https://squidly.itch.io/fetal-fury)
 
 [HaxeFlixel Engine](https://haxeflixel.com/)
 
