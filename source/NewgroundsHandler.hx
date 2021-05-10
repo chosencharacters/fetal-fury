@@ -65,6 +65,8 @@ class NewgroundsHandler
 			throw "Invalid boardId:" + board_id;
 
 		NG.core.scoreBoards.get(board_id).postScore(time_in_frames * 16);
+		NG.core.scoreBoards.get(board_id).requestScores();
+		trace(NG.core.scoreBoards.get(board_id).scores);
 
 		trace("Posted to " + NG.core.scoreBoards.get(board_id));
 	}
