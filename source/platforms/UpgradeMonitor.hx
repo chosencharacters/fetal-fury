@@ -59,7 +59,7 @@ class UpgradeMonitor extends Actor
 
 		if (tick > 30 && DO_ANNOUNCER_VOICE)
 		{
-			SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeSelectionScreen__ogg);
+			SoundPlayer.announcer(AnnouncerPriority.UPGRADE, AssetPaths.AnnouncerUpgradeSelectionScreen__ogg);
 			DO_ANNOUNCER_VOICE = false;
 		}
 

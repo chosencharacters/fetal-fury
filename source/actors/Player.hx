@@ -816,13 +816,13 @@ class Player extends Actor
 		{
 			case "speed":
 				speed = Math.floor(speed * 1.25);
-				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeSpeed__ogg);
+				SoundPlayer.announcer(AnnouncerPriority.UPGRADE, AssetPaths.AnnouncerUpgradeSpeed__ogg);
 			case "attack":
 				str++;
-				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeStrength__ogg);
+				SoundPlayer.announcer(AnnouncerPriority.UPGRADE, AssetPaths.AnnouncerUpgradeStrength__ogg);
 			case "time":
 				TimerDisplay.add_time(10);
-				SoundPlayer.play_sound(AssetPaths.AnnouncerUpgradeTime__ogg);
+				SoundPlayer.announcer(AnnouncerPriority.UPGRADE, AssetPaths.AnnouncerUpgradeTime__ogg);
 		}
 
 		new UpgradeText();

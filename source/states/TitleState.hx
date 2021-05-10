@@ -33,7 +33,7 @@ class TitleState extends BaseState
 
 		FlxG.camera.fade(FlxColor.BLACK, 0.25, true, function()
 		{
-			SoundPlayer.play_sound(AssetPaths.AnnouncerTitle__ogg);
+			SoundPlayer.announcer(AnnouncerPriority.NONE, AssetPaths.AnnouncerTitle__ogg);
 			CAN_GO_ON = true;
 		});
 

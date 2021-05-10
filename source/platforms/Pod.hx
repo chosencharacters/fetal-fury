@@ -10,7 +10,7 @@ class Pod extends FlxSpriteExt
 
 		immovable = true;
 
-		SoundPlayer.play_sound(AssetPaths.AnnouncerNewGame__ogg);
+		SoundPlayer.announcer(AnnouncerPriority.RESTART, AssetPaths.AnnouncerNewGame__ogg);
 	}
 
 	override function update(elapsed:Float)

@@ -31,7 +31,7 @@ class BossIntro extends FlxSpriteExt
 
 		PlayState.BOSS_MODE = true;
 
-		SoundPlayer.play_sound(AssetPaths.AnnouncerBossIntroGetYourAssReady__ogg);
+		SoundPlayer.announcer(AnnouncerPriority.BOSS, AssetPaths.AnnouncerBossIntroGetYourAssReady__ogg);
 	}
 
 	override function update(elapsed:Float)
@@ -57,7 +57,7 @@ class BossIntro extends FlxSpriteExt
 				sstate("title_card");
 				x += FlxG.width / 2;
 				acceleration.x = -3000;
-				SoundPlayer.play_sound(AssetPaths.AnnouncerBossIntroWholeLottaTrouble__ogg);
+				SoundPlayer.announcer(AnnouncerPriority.BOSS, AssetPaths.AnnouncerBossIntroWholeLottaTrouble__ogg);
 			case "title_card":
 				ttick();
 				visible = true;

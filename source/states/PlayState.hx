@@ -124,7 +124,7 @@ class PlayState extends BaseState
 		if (FlxG.keys.anyJustPressed(["R"]) && hitstop <= 0)
 		{
 			reset_game();
-			NewgroundsHandler.post_score(60);
+			// NewgroundsHandler.post_score(60);
 		}
 
 		super.update(elapsed);
@@ -288,7 +288,7 @@ class PlayState extends BaseState
 	public function announce_exit()
 	{
 		new ExitText();
-		SoundPlayer.altSound(6, [
+		SoundPlayer.announcerAlt(AnnouncerPriority.EXIT, 6, [
 			AssetPaths.AnnouncerExit1__ogg,
 			AssetPaths.AnnouncerExit2__ogg,
 			AssetPaths.AnnouncerExit3__ogg,
@@ -305,7 +305,7 @@ class PlayState extends BaseState
 		new DeadText();
 		if (death_announces <= 6)
 		{
-			SoundPlayer.altSound(5, [
+			SoundPlayer.announcerAlt(AnnouncerPriority.DEAD, 5, [
 				AssetPaths.AnnouncerPlayerDeath1__ogg,
 				AssetPaths.AnnouncerPlayerDeath2__ogg,
 				AssetPaths.AnnouncerPlayerDeath3__ogg,
